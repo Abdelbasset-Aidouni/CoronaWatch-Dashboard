@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled,{css} from 'styled-components'
 
 
 export default styled.div`
@@ -8,4 +8,7 @@ export default styled.div`
     background-size:${props => props.size};
     width: ${props => props.width};
     height: ${props => props.height};
+    ${props => props.white && css`
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(308deg) brightness(101%) contrast(103%);
+    `}
 `

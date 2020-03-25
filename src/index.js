@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {Switch , Route,BrowserRouter} from "react-router-dom"
-import TextField from './components/TextField'
-import Button from './components/Button'
-import Container from './components/Container'
+
 
 
 import * as serviceWorker from './serviceWorker';
 import GlobalStyle from './global/GlobalStyle';
 import App from './App';
 import LoginPage from './pages/LoginPage';
+import AccountsPage from './pages/AccountsPage'
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,6 +19,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={App}/>
         <Route path="/login" component={LoginPage}/>
+        <Route path="/accounts" component={AccountsPage} />
       </Switch>
       </BrowserRouter>
     <GlobalStyle/>

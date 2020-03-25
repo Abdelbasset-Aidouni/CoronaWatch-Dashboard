@@ -10,6 +10,7 @@ export default styled.button`
     border:none;
     border-radius:5px;
     transition:all .4s;
+    cursor:pointer;
     outline:none;
 
     &:hover{

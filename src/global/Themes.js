@@ -8,7 +8,7 @@ const PrimaryTheme = {
     },
     secondary: {
         base:"#49514A",
-        light:"#49514A",
+        light:"#495115",
         text:"#FFF"
     } ,
     background:"#F7F7F7",
