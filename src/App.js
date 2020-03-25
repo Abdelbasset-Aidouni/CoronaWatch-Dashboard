@@ -1,11 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './logo.svg'
+import styled from 'styled-components'
 import './App.css';
 
-function App() {
-  return (
+
+
+const App = () =>
+   (
     <p>corona watch dashboard</p>
-  );
-}
+  )
+
 
 export default App;

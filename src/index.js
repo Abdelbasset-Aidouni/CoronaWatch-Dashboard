@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import {Switch , Route,BrowserRouter} from "react-router-dom"
+import TextField from './components/TextField'
+import Button from './components/Button'
+import Container from './components/Container'
+
+
 import * as serviceWorker from './serviceWorker';
+import GlobalStyle from './global/GlobalStyle';
+import App from './App';
+import LoginPage from './pages/LoginPage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <>
+      <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={App}/>
+        <Route path="/login" component={LoginPage}/>
+      </Switch>
+      </BrowserRouter>
+    <GlobalStyle/>
+    </>
   </React.StrictMode>,
   document.getElementById('root')
 );
