@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import Logo from '../../../../assets/resources/Logo-header.svg'
 import {NavItem,SideBarContainer,NavItemsContainer} from './style'
 import SvgIcon from '../../../../components/SvgIcon'
@@ -22,11 +23,11 @@ const NavHeading = styled(Heading)`
 
 export default () => {
         const [menu,setMenu] = useState([
-            {id:0,item:"Dashboard",selected:true,icon:Dashboard},
-            {id:1,item:"Accounts",selected:false,icon:Accounts},
-            {id:2,item:"Content",selected:false,icon:Content},
+            {id:0,item:"Dashboard",selected:true,icon:Dashboard,url:"/"},
+            {id:1,item:"Accounts",selected:false,icon:Accounts,url:"/accounts"},
+            {id:2,item:"Content",selected:false,icon:Content,url:"/content"},
         ])
-
+        const history = useHistory()
         const onClickHandler = (element,e)=>{
             if (!element.selected) {
                 setMenu(prev => [...prev.filter(item => item.id !== element.id).map(item => {return {...item,selected:false}} ),
@@ -34,7 +35,9 @@ export default () => {
                         ...element,
                         selected:true
                     }].sort((a,b)=> a.id-b.id))
+                history.push(element.url)
             }
+            
         }
     return (
         <>

@@ -2,6 +2,7 @@ import React from 'react'
 import SideBar from './components/SideBar'
 import UserNav from './components/UserNav'
 import styled from 'styled-components'
+
 const Wrapper = styled.div`
     display:flex;
     position:absolute;
@@ -19,12 +20,14 @@ const MainContent = styled.div`
 `
 
 export default ({children}) => (
-    <Wrapper>
-        <SideBar/>
-        <MainContent>
-            <UserNav/>
-            {children}
-        </MainContent>
-    </Wrapper>
+    
+        <Wrapper>
+            <SideBar/>
+            <MainContent>
+                <UserNav/>
+                {children}
+            </MainContent>
+        </Wrapper>
+    
     
 )
