@@ -8,11 +8,12 @@ const Wrapper = styled.div`
     position:absolute;
     width:100%;
     flex-direction:row;
-    height:100% !important;
+    min-height:100% !important;
     background-color:#F7F7F7;
 `
 const MainContent = styled.div`
     display:flex;
+    position:relative;
     flex-direction:column;
     flex-grow:1;
     height:100% !important;

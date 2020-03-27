@@ -1,13 +1,13 @@
-import React,{useState} from 'react'
-import {useHistory} from 'react-router-dom'
+import React from 'react'
 import Logo from '../../../../assets/resources/Logo-header.svg'
 import {NavItem,SideBarContainer,NavItemsContainer} from './style'
 import SvgIcon from '../../../../components/SvgIcon'
 import Heading from '../../../../components/Heading'
-import Dashboard from '../../../../assets/icons/dashboard.svg'
-import Accounts from '../../../../assets/icons/accounts.svg'
-import Content from '../../../../assets/icons/content.svg'
 import styled from 'styled-components'
+import {useHistory} from 'react-router-dom'
+import {switchTab} from '../../../../store/actions'
+
+import {useSelector,useDispatch} from 'react-redux'
 
 
 
@@ -22,23 +22,16 @@ const NavHeading = styled(Heading)`
 
 
 export default () => {
-        const [menu,setMenu] = useState([
-            {id:0,item:"Dashboard",selected:true,icon:Dashboard,url:"/"},
-            {id:1,item:"Accounts",selected:false,icon:Accounts,url:"/accounts"},
-            {id:2,item:"Content",selected:false,icon:Content,url:"/content"},
-        ])
-        const history = useHistory()
-        const onClickHandler = (element,e)=>{
-            if (!element.selected) {
-                setMenu(prev => [...prev.filter(item => item.id !== element.id).map(item => {return {...item,selected:false}} ),
-                    {
-                        ...element,
-                        selected:true
-                    }].sort((a,b)=> a.id-b.id))
-                history.push(element.url)
-            }
-            
-        }
+    const dispatch = useDispatch()
+    const menu =  useSelector(state => state.menu)
+    console.log(menu)
+    const history = useHistory()
+    const onClickHandler = (element,e)=>{
+        dispatch(switchTab(element.url))
+        history.push(element.url)
+    }
+
+    
     return (
         <>
     <SideBarContainer>
@@ -52,7 +45,7 @@ export default () => {
             {menu.map(item => (
                 <NavItem 
                     selected={item.selected} 
-                    onClick={() => onClickHandler(item)} 
+                    onClick={() => onClickHandler(item) }
                     key={item.id}
                     type={console.log(item)}
                 >   

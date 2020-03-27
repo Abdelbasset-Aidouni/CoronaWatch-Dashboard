@@ -9,6 +9,9 @@ import SvgIcon from '../../components/SvgIcon'
 import Heading from '../../components/Heading'
 import Plus from '../../assets/icons/plus.svg'
 import Filter from '../../assets/icons/filter.svg'
+import Dots from '../../assets/icons/dots.svg'
+import data from '../../data/accounts.json'
+import Container from '../../components/Container/style'
 
 
 
@@ -17,25 +20,39 @@ const TableStyle = styled.table`
     width:100%;
     border-collapse: collapse;
     margin-bottom:1.2rem;
+    
+    
 `
 const Tr = styled.tr`
     border-bottom:solid #E8E8E8 1px;
     padding: .6rem .8rem;
-    
+   
+    &:last-child {
+        border:none;
+    }
+    &:first-child{
+        border-bottom:solid #E8E8E8 1px;
+    }
     
 `
 const Td = styled.td`
     padding: .6rem .8rem;
     margin:1.2rem 1.6rem;
-    border-bottom:solid #E8E8E8 1px;
+    font-size:1rem;
+    /* border-bottom:solid #E8E8E8 1px; */
     text-align:center;
     color:#49514A;
-
     &:nth-child(2){
         font-weight:700;
         font-size:.8rem;
     }
-    
+    &:last-child{
+        display:flex;
+        justify-content:flex-end;
+        align-items:center;
+        border:none;
+        margin:0;
+    }
     
     &:first-child{
         font-weight:500;
@@ -76,7 +93,6 @@ const LoadMoreButtonContainer = styled.div`
     border:none;
     cursor:pointer;
     padding:.5rem;
-
 `
 
 const Header = styled.div`
@@ -128,7 +144,31 @@ const FilterButtonContainer = styled.div`
     display:flex;
     align-items:baseline;
 `
+const TBody = styled.tbody`
+    
+    height:50vh;
+    overflow-y:scroll;
+    &::-webkit-scrollbar {
+    width: 3px;
+    height: 1px;
 
+  }
+  
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`
 
 
 const AccountsWrapper = () =>(
@@ -170,6 +210,14 @@ const AccountsWrapper = () =>(
         </Header>
         <TableContainer>
             <TableStyle>
+            <colgroup>
+                <col span="1" style={{width:"16%"}} />
+                <col span="1" style={{width:"16%"}} />
+                <col span="1" style={{width:"16%"}} />
+                <col span="1" style={{width:"16%"}} />
+                <col span="1" style={{width:"16%"}} />
+                <col span="1" style={{width:"20%"}} />
+            </colgroup>
                 <thead>
                     <Tr>
                         <Th>Username</Th>
@@ -181,51 +229,36 @@ const AccountsWrapper = () =>(
                     </Tr>
                     
                 </thead>
-                <tbody>
-                    <Tr>
-                        <Td>Mohamed</Td>
-                        <Td>Moderator</Td>
-                        <Td>12/03/2020</Td>
-                        <Td>23/03/2020</Td>
-                        <Td> <StatusBadge>Active</StatusBadge>  </Td>
-                        <Td></Td>
-                    </Tr>
+                <TBody>
+                    {data.data.map(user =>(
+                        <Tr>
+                            <Td>{user.username}</Td>
+                            <Td>{user.role}</Td>
+                            <Td>{user.date_joined}</Td>
+                            <Td>{user.last_login}</Td>
+                            <Td>
+                                <StatusBadge 
+                                type={user.status === "reported" ? "warning": user.status === "blocked" ? "danger" : "success"}
+                                >
+                                {user.status.toUpperCase()}   
+                                </StatusBadge>
+                            </Td>
+                            <Td>
+                                <SvgIcon
+                                    url={Dots}
+                                    width="6px"
+                                    height="14px"
+                                    size="contain"
+                                />
+                            </Td>
+                        </Tr>
+                    ))}
+                    
                 
-                    <Tr>
-                        <Td>Djamila</Td>
-                        <Td>Visitor</Td>
-                        <Td>12/03/2020</Td>
-                        <Td>23/03/2020</Td>
-                        <Td><StatusBadge>Active</StatusBadge> </Td>
-                        <Td></Td>
-                    </Tr>
                    
-                    <Tr>
-                        <Td>Ahmed</Td>
-                        <Td>Moderator</Td>
-                        <Td>12/03/2020</Td>
-                        <Td>23/03/2020</Td>
-                        <Td><StatusBadge type="danger">Blocked</StatusBadge> </Td>
-                        <Td></Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Karim</Td>
-                        <Td>Visitor</Td>
-                        <Td>12/03/2020</Td>
-                        <Td>23/03/2020</Td>
-                        <Td><StatusBadge>Active</StatusBadge> </Td>
-                        <Td></Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Kamal</Td>
-                        <Td>Visitor</Td>
-                        <Td>12/03/2020</Td>
-                        <Td>23/03/2020</Td>
-                        <Td><StatusBadge type="warning">Reported</StatusBadge> </Td>
-                        <Td></Td>
-                    </Tr>
-                </tbody>
+                </TBody>
             </TableStyle>
+            
             <CenteredContent width="100">
                 <LoadMoreButtonContainer>
                     <SvgIcon

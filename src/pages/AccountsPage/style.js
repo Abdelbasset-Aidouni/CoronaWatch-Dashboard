@@ -13,6 +13,7 @@ const TableContainer = styled.div`
     border-radius: 5px;
     border:none;
     padding:.8rem 1.2rem;
+    
 `
 export default AccountsContainer
 export {
