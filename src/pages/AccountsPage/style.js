@@ -15,8 +15,52 @@ const TableContainer = styled.div`
     padding:.8rem 1.2rem;
     
 `
+
+const HeadingFilterContainer = styled.div`
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    width:25%;
+`
+
+
+const FilterButton = styled.button`
+    border:none;
+    border-radius:5px;
+    padding:.1rem .2rem;
+    background-color:#EBEBEB;
+    outline:none;
+    cursor:pointer;
+    margin-right:.4rem;
+`
+const FilterButtonContainer = styled.div`
+    display:flex;
+    align-items:baseline;
+`
+
+
+const LoadMoreButtonContainer = styled.div`
+    border-radius:50%;
+    background-color:#F7F7F7;
+    border:none;
+    cursor:pointer;
+    padding:.5rem;
+`
+
+const Header = styled.div`
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:center;
+`
+
 export default AccountsContainer
 export {
     AccountsContainer,
-    TableContainer
+    TableContainer,
+    HeadingFilterContainer,
+    FilterButton,
+    FilterButtonContainer,
+    LoadMoreButtonContainer,
+    Header
 }

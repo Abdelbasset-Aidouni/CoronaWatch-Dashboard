@@ -1,10 +1,9 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {Switch , Route,BrowserRouter} from "react-router-dom"
-
-
-
+import {Switch , Route,BrowserRouter,Redirect} from "react-router-dom"
+import {PrivateRoute,LoginRoute} from './global/routes'
 import * as serviceWorker from './serviceWorker';
 import GlobalStyle from './global/GlobalStyle';
 import App from './App';
@@ -21,12 +20,13 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={App}/>
-        <Route path="/login" component={LoginPage}/>
-        <Route path="/accounts" component={AccountsPage} />
-        <Route path="/content" component={ContentPage} />
-        <Route path="/comments" component={CommentsPage} />
-        <Route path="/reported-cases" component={ReportedCasesPage} />
+        <PrivateRoute exact path="/" component={App}/>
+        <LoginRoute path="/login" component={LoginPage}/>
+        <PrivateRoute path="/accounts" component={AccountsPage} />
+        <PrivateRoute path="/content" component={ContentPage} />
+        <PrivateRoute path="/comments" component={CommentsPage} />
+        <PrivateRoute path="/reported-cases" component={ReportedCasesPage} />
+        <Redirect from="*" to="/" />
       </Switch>
       </BrowserRouter>
     <GlobalStyle/>

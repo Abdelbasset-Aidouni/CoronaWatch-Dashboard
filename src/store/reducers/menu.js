@@ -6,7 +6,7 @@ import Warning from '../../assets/icons/warning.svg'
 
 
 let globalState = [
-    {id:0,item:"Dashboard",selected:false,icon:Dashboard,url:"/"},
+    {id:0,item:"Dashboard",selected:true,icon:Dashboard,url:"/"},
     {id:1,item:"Accounts",selected:false,icon:Accounts,url:"/accounts"},
     {id:2,item:"Content",selected:false,icon:Content,url:"/content"},
     {id:3,item:"Comments",selected:false,icon:Comments,url:"/comments"},
@@ -18,12 +18,16 @@ let globalState = [
 const goTo = (state,url = "/")=>{
     
     const element = state.filter(item => item.url === url)[0]
-    console.log(element)
-    const newState = [...state.filter(item => item.id !== element.id).map(item => {return {...item,selected:false}} ),
-        {
-            ...element,
-            selected:true
-        }].sort((a,b)=> a.id-b.id)
+    let newState = state
+    if (element){
+        console.log(element)
+        newState = [...state.filter(item => item.id !== element.id).map(item => {return {...item,selected:false}} ),
+            {
+                ...element,
+                selected:true
+            }].sort((a,b)=> a.id-b.id)
+    }
+    console.log(newState)
     
     return newState
 }
