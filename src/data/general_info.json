@@ -1,0 +1,28 @@
+{
+    "data":[
+        {
+            "title":"Infected",
+            "count":"670909",
+            "progress":"0.36",
+            "is_good":false
+        },
+        {
+            "title":"Sick",
+            "count":"330109",
+            "progress":"2.36",
+            "is_good":false
+        },
+        {
+            "title":"Recovered",
+            "count":"190341",
+            "progress":"0.56",
+            "is_good":true
+        },
+        {
+            "title":"Death",
+            "count":"27391",
+            "progress":"0.29",
+            "is_good":false
+        }
+    ]
+}

@@ -14,13 +14,14 @@ import store from './store/store'
 import ContentPage from './pages/ContentPage';
 import CommentsPage from "./pages/CommentsPage"
 import ReportedCasesPage from './pages/ReportedCasesPage'
+import HomePage from './pages/HomePage'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
       <Switch>
-        <PrivateRoute exact path="/" component={App}/>
+        <PrivateRoute exact path="/" component={HomePage}/>
         <LoginRoute path="/login" component={LoginPage}/>
         <PrivateRoute path="/accounts" component={AccountsPage} />
         <PrivateRoute path="/content" component={ContentPage} />
