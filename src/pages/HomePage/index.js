@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import BasePage from '../BasePage'
 import styled, { css } from 'styled-components'
 import Heading from '../../components/Heading'
@@ -6,7 +6,7 @@ import SvgIcon from '../../components/SvgIcon'
 import StatusUp from '../../assets/icons/up.svg'
 import StatusDown from '../../assets/icons/down.svg'
 import { PrimaryTheme } from '../../global/Themes'
-
+import ReactTooltip from "react-tooltip"
 import data from '../../data/general_info.json'
 import Map from './map'
 import LeafMap from './map/leaf'
@@ -75,6 +75,7 @@ const MapContainer = styled.div`
 
 
 const HomeContainer = () =>{
+    const [tooltip,setTooltip] = useState("")
     return (
         <MainContentContainer>
             <CardsContainer>
@@ -104,7 +105,8 @@ const HomeContainer = () =>{
                 
             </CardsContainer>
             <MapContainer>
-                <Map/>
+                <Map setTooltip={setTooltip}/>
+                <ReactTooltip>{tooltip}</ReactTooltip>
             </MapContainer>
             
         </MainContentContainer>

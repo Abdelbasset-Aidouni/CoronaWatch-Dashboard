@@ -41,11 +41,23 @@ const markers = [
 
 
 
-const countries = ["Algeria","France","Italy","Spain","Marroco","Tunisia","Egypt"]
 
-const MapChart = () => {
+const rounded = num => {
+  if (num > 1000000000) {
+    return Math.round(num / 10000000) / 4 ;
+  } else if (num > 100000000) {
+    return Math.round(num / 1000000) / 4;
+  } else {
+    return Math.round(num / 1000000 / 3);
+  }
+};
+
+
+
+const MapChart = ({setTooltip}) => {
   return (
     <ComposableMap
+      data-tip=""
       // projection={d3.geoCylindricalEqualArea()}
       projectionConfig={{
         scale: 300,
@@ -60,18 +72,18 @@ const MapChart = () => {
             {geographies
             .map(geo => (
               <Geography
+                
                 onClick={() => console.log(geoCentroid(geo))}
                 key={geo.rsmKey}
                 geography={geo}
                 fill="#EAEAEC"
+                strokeWidth={.1}
+                stroke="#252525"
                 style={{
                   default: {
                     fill: "#D6D6DA",
                     outline: "none"
-                  },
-                  hover: {
-                    fill: "#F53",
-                    outline: "none"
+                    
                   },
                   pressed: {
                     fill: "#E42",
@@ -83,8 +95,25 @@ const MapChart = () => {
             {geographies
               // .filter(d => countries.includes(d.properties.NAME))
               .map(geo => 
-                  <Marker key={geo.id}  coordinates={geoCentroid(geo)}>
-                    <circle r={Math.floor(Math.random() * 200) * 0.1} fill="rgba(255,0,0,0.2)" stroke="#ff0f26" strokeWidth={.5} />
+                  <Marker 
+                  onMouseEnter={() => {
+                    const { NAME } = geo.properties;
+                    console.log(geo.properties)
+                    setTooltip(`${NAME} — ${Math.floor(geo.properties.POP_EST/1000000)} Infected`);
+                  }}
+                  onMouseLeave={() => {
+                    setTooltip("");
+                  }}
+                  
+                  key={geo.id}  
+                  coordinates={geoCentroid(geo)}>
+                    <circle 
+                    style={{
+                      hover:{
+                        fill: "#F53",
+                      }
+                    }}
+                    r={Math.floor(rounded(geo.properties.POP_EST))} fill="rgba(255,0,0,0.2)" stroke="#ff0f26" strokeWidth={.5} />
                   </Marker>
                   )
               }
