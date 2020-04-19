@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import testVideo from '../../../../assets/resources/The Art of Web API Design.mp4'
 import Truncate from 'react-truncate'
 import SvgIcon from '../../../../components/SvgIcon'
 import Avatar from '../../../../assets/resources/avatar.jpg'
