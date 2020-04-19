@@ -11,4 +11,6 @@ export default styled.div`
     ${props => props.white && css`
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(308deg) brightness(101%) contrast(103%);
     `}
+    ${props => props.pointer && css`cursor:pointer;`}
+    ${props => props.rounded && css`border-radius:50%;`}
 `

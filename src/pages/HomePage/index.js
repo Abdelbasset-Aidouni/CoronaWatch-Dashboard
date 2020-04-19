@@ -64,7 +64,7 @@ const MapContainer = styled.div`
     margin-top:1rem;
     border-radius:5px;
     background-color:white;
-    padding:.2rem .4rem;
+    
     & svg {
         display: inline-block;
         vertical-align: middle;

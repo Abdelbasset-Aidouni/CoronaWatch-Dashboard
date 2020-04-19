@@ -15,7 +15,7 @@ const Th = styled.th`
     font-weight:500;
     padding: .6rem .8rem;
     margin:1.2rem 1.6rem;
-    
+    text-align:center;
     &:first-child{
         text-align:left;
     }

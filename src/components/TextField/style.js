@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export default styled.input`
+    display:${props => props.inline ? "inline" : "block"};
     background-color:#F7F7F7;
     border:none;
     color: #49514A;

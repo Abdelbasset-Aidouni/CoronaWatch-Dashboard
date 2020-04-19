@@ -33,6 +33,7 @@ const SideBarContainer = styled.div`
     display:flex;
     flex-direction:column;
     width:18%;
+    min-width:250px;
     min-height:100% !important;
     box-shadow: 13px -2px 18px -18px rgba(0,0,0,0.49);
 `

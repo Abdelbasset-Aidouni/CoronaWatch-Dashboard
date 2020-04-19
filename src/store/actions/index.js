@@ -8,6 +8,11 @@ export const switchTab = (url) =>({
 })
 
 
+export const switchCategory = (category) =>({
+    type:"SWITCH_CATEGORY",
+    category
+})
+
 export const login = (user) => {
     auth.login(user.username,user.password)
     return {type:'LOGIN',

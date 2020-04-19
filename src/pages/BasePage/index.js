@@ -2,7 +2,7 @@ import React from 'react'
 import SideBar from './components/SideBar'
 import UserNav from './components/UserNav'
 import styled from 'styled-components'
-
+import AddUserModal from '../AccountsPage/components/AddUserModal'
 const Wrapper = styled.div`
     display:flex;
     position:absolute;

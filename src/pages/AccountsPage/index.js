@@ -10,6 +10,7 @@ import Filter from '../../assets/icons/filter.svg'
 import data from '../../data/accounts.json'
 import AccountLine from './components/AccountLine'
 import AddUserButton from './components/AddUser'
+import AddUserModal from './components/AddUserModal'
 import {
     HeadingFilterContainer,
     FilterButtonContainer,
@@ -22,6 +23,7 @@ import {
 
 
 const AccountsWrapper = () =>(
+    <>
     <AccountsContainer>
         <Header>
             <HeadingFilterContainer>
@@ -91,7 +93,10 @@ const AccountsWrapper = () =>(
             </LoadMoreButtonContainer>
             </CenteredContent>
         </TableContainer>
+        
     </AccountsContainer>
+    
+    </>
 )
 
 export default () => <BasePage> <AccountsWrapper/> </BasePage>
