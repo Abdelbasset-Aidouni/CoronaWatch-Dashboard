@@ -105,7 +105,7 @@ const HomeContainer = () =>{
                 
             </CardsContainer>
             <MapContainer>
-                <Map setTooltip={setTooltip}/>
+                <LeafMap setTooltip={setTooltip}/>
                 <ReactTooltip>{tooltip}</ReactTooltip>
             </MapContainer>
             
