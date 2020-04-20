@@ -1,0 +1,1 @@
+export const apiUrl = "http://accountapi.herokuapp.com/api"

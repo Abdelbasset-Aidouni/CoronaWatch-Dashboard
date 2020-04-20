@@ -27,7 +27,7 @@ const Td = styled.td`
     /* border-bottom:solid #E8E8E8 1px; */
     text-align:center;
     color:#49514A;
-    &:nth-child(2){
+    &:nth-child(4){
         font-weight:700;
         font-size:.8rem;
     }

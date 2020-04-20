@@ -29,6 +29,7 @@ const NavItemsContainer =styled.div`
 `
 
 const SideBarContainer = styled.div`
+    
     background-color:${PrimaryTheme.primary.base};
     display:flex;
     flex-direction:column;

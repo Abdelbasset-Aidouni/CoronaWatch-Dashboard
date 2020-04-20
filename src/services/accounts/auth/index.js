@@ -1,12 +1,54 @@
 
-const apiUrl = "http://accountapi.herokuapp.com/"
-export const login = (username,password) => {
-    if (username === "admin" && password === "admin"){
-        localStorage.setItem('user', {
-            loggedIn:true,
-            user:"admin"
-        });
-    }
+import {apiUrl} from "../../../global/config"
+
+
+// export const login = (email, password) => {
+//     const requestOptions = {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ email, password })
+//     };
+
+//     return fetch(`${apiUrl}/login/staff`, requestOptions)
+//         .then(handleResponse)
+//         .then(user => {
+//             // store user details and jwt token in local storage to keep user logged in between page refreshes
+//             localStorage.setItem('user', JSON.stringify(user));
+
+//             return user;
+//         });
+// }
+
+
+
+
+export const login = (email,password) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    };
+    return fetch(`${apiUrl}/login/staff/`, requestOptions)
+        .then(res => res.text()
+                        .then(text => {
+                            if (res.ok){
+                                var user = JSON.parse(text)
+                                localStorage.setItem('user', JSON.stringify(user))
+                                console.log("------------success----------------\n",user)
+                            }else{
+                                console.log("**************error***************")
+                            }
+                            
+                        }
+                    )
+            )
+        
+    // if (username === "admin" && password === "admin"){
+    //     localStorage.setItem('user', {
+    //         loggedIn:true,
+    //         user:"admin"
+    //     });
+    // }
 }
 
 
@@ -17,7 +59,7 @@ export default {
     logout
 }
 
-function authHeader() {
+export function authHeader() {
     // return authorization header with jwt token
     let user = JSON.parse(localStorage.getItem('user'));
 

@@ -7,17 +7,23 @@ import SvgIcon from '../../../../components/SvgIcon'
 
 export default ({user}) => (
     <Tr>
-        <Td>{user.username}</Td>
-        <Td>{user.role}</Td>
-        <Td>{user.date_joined}</Td>
-        <Td>{user.last_login}</Td>
-        <Td>
+        <Td>{user.email}</Td>
+        <Td>{user.first_name}</Td>
+        <Td>{user.last_name}</Td>
+        <Td>{user.role === 1 ? "Visitor" 
+            :user.role === 2 ? "Moderator"
+            :user.role === 3 ? "Writer"
+            :user.role === 4 ? "Health Agent"
+            : "Admin"}</Td>
+        <Td>{user.birth_date}</Td>
+        {/* <Td>{user.last_login}</Td> */}
+        {/* <Td>
             <StatusBadge 
             type={user.status === "reported" ? "warning": user.status === "blocked" ? "danger" : "success"}
             >
             {user.status.toUpperCase()}   
             </StatusBadge>
-        </Td>
+        </Td> */}
         <Td>
             <SvgIcon
                 url={Dots}

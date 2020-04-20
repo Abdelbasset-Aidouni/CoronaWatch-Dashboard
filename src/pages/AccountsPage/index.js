@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import BasePage from '../BasePage'
 import {AccountsContainer,TableContainer} from './style'
 import {CenteredContent} from '../LoginPage/components/LoginForm/style'
@@ -11,6 +11,7 @@ import data from '../../data/accounts.json'
 import AccountLine from './components/AccountLine'
 import AddUserButton from './components/AddUser'
 import AddUserModal from './components/AddUserModal'
+import {fetchUsers} from '../../services/accounts/users'
 import {
     HeadingFilterContainer,
     FilterButtonContainer,
@@ -22,16 +23,28 @@ import {
 
 
 
-const AccountsWrapper = () =>(
+const AccountsWrapper = () =>{
+    var [accounts,setAccounts] = useState([])
+    useEffect(
+        () =>{
+            const fetchData = async ()=>{
+                const result = await fetchUsers()
+                setAccounts(result)
+            }
+            fetchData()
+        },[]
+    )
+    return (
     <>
     <AccountsContainer>
         <Header>
+            
             <HeadingFilterContainer>
                 <Heading
                     size="h2"
                     weight="600"
                 >
-                    Accounts
+                    Accounts {console.log(typeof(accounts))}
                 </Heading>
                 <FilterButtonContainer>
                     <FilterButton>
@@ -64,18 +77,19 @@ const AccountsWrapper = () =>(
             </colgroup>
                 <thead>
                     <Tr>
-                        <Th>Username</Th>
+                        <Th>Email</Th>
+                        <Th>First Name</Th>
+                        <Th>Last Name</Th>
                         <Th>Role</Th>
-                        <Th>Date Joined</Th>
-                        <Th>Last Login</Th>
-                        <Th>Status</Th>
+                        <Th>Birth Day</Th>
+                        
                         <Th></Th>
                     </Tr>
                     
                 </thead>
                 
                 <tbody>
-                    {data.data.map(user =>(
+                    {accounts.map(user =>(
                       <AccountLine user={user} />  
                     ))}
                 </tbody>
@@ -97,6 +111,6 @@ const AccountsWrapper = () =>(
     </AccountsContainer>
     
     </>
-)
+)}
 
 export default () => <BasePage> <AccountsWrapper/> </BasePage>

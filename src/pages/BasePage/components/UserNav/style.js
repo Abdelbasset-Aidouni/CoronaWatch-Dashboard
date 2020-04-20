@@ -30,6 +30,7 @@ const UserNavContainer = styled.div`
     top:0;
     right:0;
     display:flex;
+    background-color:#F7F7F7 !important;
     height:80px;
     justify-content:flex-end;
     align-items:center;
