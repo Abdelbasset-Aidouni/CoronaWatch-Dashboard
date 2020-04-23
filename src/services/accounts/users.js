@@ -4,7 +4,7 @@ import axios from 'axios'
 export const fetchUsers = () => {
     const requestOptions = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' ,...authTokenHeader()},
+        headers: { 'Content-Type': 'application/json' ,...authHeader()},
     };
     return fetch(`${accountsUrl}/users/`, requestOptions)
         .then(res => res.text()
