@@ -14,9 +14,17 @@ const StatusBadge = styled.span`
     font-size:.8rem;
     
 `
+const DropdownItem = styled.span`
+    color:${PrimaryTheme.secondary.base};
+    font-weight:500;
+    font-size:.8rem;
+    &:hover{
+        
+    }
+`
 
 
 export {
-   
+    DropdownItem,
     StatusBadge
 }

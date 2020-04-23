@@ -1,5 +1,5 @@
 
-import {apiUrl} from "../../../global/config"
+import {apiUrl,accountsUrl} from "../../../global/config"
 
 
 // export const login = (email, password) => {
@@ -28,13 +28,14 @@ export const login = (email,password) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
     };
-    return fetch(`${apiUrl}/login/staff/`, requestOptions)
+    return fetch(`${accountsUrl}/login/staff/`, requestOptions)
         .then(res => res.text()
                         .then(text => {
                             if (res.ok){
                                 var user = JSON.parse(text)
                                 localStorage.setItem('user', JSON.stringify(user))
                                 console.log("------------success----------------\n",user)
+                                window.location.reload(true)
                             }else{
                                 console.log("**************error***************")
                             }
@@ -65,6 +66,16 @@ export function authHeader() {
 
     if (user && user.token) {
         return { 'Authorization': 'Bearer ' + user.token };
+    } else {
+        return {};
+    }
+}
+export function authTokenHeader() {
+    // return authorization header with jwt token
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    if (user && user.token) {
+        return { 'Authorization': 'Token ' + user.token };
     } else {
         return {};
     }

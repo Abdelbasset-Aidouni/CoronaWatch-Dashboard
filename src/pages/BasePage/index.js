@@ -15,7 +15,7 @@ const MainContent = styled.div`
     display:flex;
     position:relative;
     flex-direction:column;
-    flex-grow:1;
+    flex-grow:10;
     height:100% !important;
     
 `

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import BasePage from '../BasePage'
 import styled from 'styled-components'
 import Header from './components/Header'
@@ -11,6 +11,8 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import NextIcon from '../../assets/icons/next-button.svg'
 import BackIcon from '../../assets/icons/back-button.svg'
 import {useSelector,useDispatch} from 'react-redux'
+import { css } from "@emotion/core";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const HiddenNextButton = styled(ButtonNext)`
     display:none;
@@ -19,14 +21,42 @@ const HiddenBackButton = styled(ButtonBack)`
     display:none;
 `
 // const CustomCarouselProvider = styled
+const TestLoader = styled.div`
+    width:40px;
+    height:40px;
+    background-color:black;
+    position:absolute;
+    top:60%;
+    left:60%;
 
+`
+const override = css`
+    position:absolute;
+    top:55%;
+    left:45%;
+`
 const ContentWrapper = () =>{
+    const [loading,setLoading] = useState(false)
+    const [articles,setArticles] = useState([])
+    const [blurState,setBlurState] = useState(false)
     let Articles = useSelector(state => state.content)
     Articles = Articles.filter(item => item.selected)[0]
+    console.log(Articles)
+    useEffect(()=>{
+        const fetch = async () =>{
+            setBlurState(true)
+            setLoading(true)
+            await Articles.fetch().then(res => setArticles(res))
+            setLoading(false)
+            setBlurState(false)
+        }
+        fetch()
+    },[Articles,])
     return (
     <>
         <Header/>
-        <ArticlesWrapper>
+        {console.log("articles",Articles)}
+        <ArticlesWrapper blur={blurState}>
             <NextButtonContainer>
                 <SvgIcon
                     url={BackIcon}
@@ -43,21 +73,22 @@ const ContentWrapper = () =>{
          <CarouselProvider
                 naturalSlideWidth={100}
                 naturalSlideHeight={140}
-                totalSlides={Articles.data.length}
+                totalSlides={articles.length}
                 visibleSlides={3}
             >
             <Slider>
             {
-                    Articles.data.map(article => 
+                    articles.map(article => 
                         <Slide>
+                            {console.log("article",article)}
                             <Article 
+                                pk={article.pk}
                                 title={article.title}
-                                video={article.video ? article.video : false}
-                                image={article.image ? article.image : false}
-                                text={article.text}
+                                file={article.file}
+                                content={article.content}
                                 user={article.user}
-                                userImage={article.userImage}
-                                date={article.date}
+                                date_posted={article.date_posted}
+                                status={article.status}
                             />
                         </Slide>
                         )
@@ -77,7 +108,15 @@ const ContentWrapper = () =>{
             />
             
         </NextButtonContainer>
+        
       </ArticlesWrapper>
+      <PulseLoader
+        css={override}
+        // size={60}
+        color={"#13C7E9"}
+        loading={loading}
+        // margin={0}
+        />
     </>
     
 )}

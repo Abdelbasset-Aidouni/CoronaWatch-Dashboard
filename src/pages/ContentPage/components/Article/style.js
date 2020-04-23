@@ -80,3 +80,18 @@ export const ActionsContainer = styled.div`
         margin-left:.4rem
     }
 `
+
+export const Badge = styled.div`
+    border: solid ${props => props.rejected ? "red" : "green"} 1px;
+    border-radius:50px;
+    padding:.3rem .8rem;
+    color: ${props => props.rejected ? "red" : "green"};
+    font-size: .825rem;
+    font-weight:500;
+`
+
+export const BadgeContainer = styled.div`
+    display:flex;
+    justify-content:flex-start;
+    margin:.3rem .8rem;
+`

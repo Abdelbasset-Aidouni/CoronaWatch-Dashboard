@@ -1,5 +1,7 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery-confirm/js/jquery-confirm'
 import ReactDOM from 'react-dom';
 import './index.css';
 import {Switch , Route,BrowserRouter,Redirect} from "react-router-dom"
@@ -15,6 +17,12 @@ import ContentPage from './pages/ContentPage';
 import CommentsPage from "./pages/CommentsPage"
 import ReportedCasesPage from './pages/ReportedCasesPage'
 import HomePage from './pages/HomePage'
+import floatThead from 'floatthead'
+var bs = require('bootstrap')
+
+
+window.$ = window.jQuery = require('jquery')
+window.$.floatThead = floatThead
 
 ReactDOM.render(
   <React.StrictMode>

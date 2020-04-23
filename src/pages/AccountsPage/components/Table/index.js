@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import $ from 'jquery'
 
 const TableStyle = styled.table`
     width:100%;
@@ -8,6 +8,11 @@ const TableStyle = styled.table`
     margin-bottom:1.2rem;    
 `
 
+const Tbody = styled.tbody`
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+`
 
 const Th = styled.th`
     color:#8C918D;
@@ -16,6 +21,7 @@ const Th = styled.th`
     padding: .6rem .8rem;
     margin:1.2rem 1.6rem;
     text-align:center;
+    
     &:first-child{
         text-align:left;
     }
@@ -27,8 +33,12 @@ const Td = styled.td`
     /* border-bottom:solid #E8E8E8 1px; */
     text-align:center;
     color:#49514A;
-    &:nth-child(4){
+    &:nth-child(2){
         font-weight:700;
+        font-size:.8rem;
+    }
+    &:nth-child(3),&:nth-child(4){
+        font-weight:500;
         font-size:.8rem;
     }
     &:last-child{
@@ -40,6 +50,7 @@ const Td = styled.td`
     }
     
     &:first-child{
+        font-size:.8rem;
         font-weight:500;
         text-align:left;
     }
@@ -58,12 +69,51 @@ const Tr = styled.tr`
     }
     
 `
+const Thead = styled.thead`
+    
+`
+$(document).ready(function (){
+    
+})
+// const adjustTable = () =>{
+//     var $table = $('table'),
+//     $bodyCells = $table.find('tbody tr:first').children(),
+//     colWidth;
+    
+//     console.log('jquery block executed',$bodyCells)
+//     // Get the tbody columns width array
+//     colWidth = $bodyCells.map(function() {
+//         console.log($(this).width())
+//         return $(this).width();
+//     }).get();
+    
+
+//     // Set the width of thead columns
+//     $table.find('thead tr').children().each(function(i, v) {
+//         $(v).width(colWidth[i]);
+//     }); 
+
+//     $(window).resize(function() {
+//         // Get the tbody columns width array
+//         colWidth = $bodyCells.map(function() {
+//             return $(this).width();
+//         }).get();
+        
+//         // Set the width of thead columns
+//         $table.find('thead tr').children().each(function(i, v) {
+//             $(v).width(colWidth[i]);
+//         });    
+//     }).resize();
+// }
 
 export {
     Tr,
     Td,
     TableStyle,
-    Th
+    Th,
+    Tbody,
+    Thead,
+    
 }
 
 

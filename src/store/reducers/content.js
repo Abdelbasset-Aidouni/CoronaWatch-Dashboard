@@ -1,10 +1,19 @@
 import Robots from "../../data/articles/robots.json"
 import Redactors from "../../data/articles/redactors.json"
 import Users from "../../data/articles/users.json"
+import {
+    fetchUsersPosts,
+    fetchRedactorsPosts,
+    fetchRobotsPosts
+} from '../../services/content'
+
+
+
+
 let contentState = [
-    {id:1,title:"Robots",data:Robots.data,selected:false},
-    {id:2,title:"Redactors",data:Redactors.data,selected:false},
-    {id:3,title:"Users",data:Users.data,selected:false},
+    {id:1,title:"Robots",data:[],fetch:fetchRobotsPosts,selected:false},
+    {id:2,title:"Redactors",data:[],fetch:fetchRedactorsPosts,selected:false},
+    {id:3,title:"Users",data:[],fetch:fetchUsersPosts,selected:false},
 ]
 
 export const SwitchCategoryReducer = (state=contentState,action) =>{
@@ -12,7 +21,7 @@ export const SwitchCategoryReducer = (state=contentState,action) =>{
         case 'SWITCH_CATEGORY':
             return selectCategory(state,action.category)
         default:
-            return selectCategory(state,"Robots")
+            return selectCategory(state,"Users")
     }
 }
 
