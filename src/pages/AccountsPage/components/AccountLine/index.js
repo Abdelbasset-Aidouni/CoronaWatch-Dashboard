@@ -43,7 +43,7 @@ export default ({user,deleteUserHandler}) => {
     const handleBlock = async ()  =>{
         await blockUser(user.pk)
             .then(response =>{
-                console.log("response", response.text,response)
+                response.text().then(text => console.log("response",text))
                 if (response.ok){
                     setIsActive(pre => !pre)
                     window.$.alert({title:"Success",content:'User Blocked Successfully'})
@@ -56,8 +56,10 @@ export default ({user,deleteUserHandler}) => {
             
     const handleUnblock = async () => 
         await unblockUser(user.pk)
+            
             .then(response =>{
-                if (response.status === 200){
+                response.text().then(text => console.log("response",text))
+                if (response.ok){
                     setIsActive(pre => !pre)
                     window.$.alert({title:"Success",content:'User unBlocked Successfully'})
                 }else{

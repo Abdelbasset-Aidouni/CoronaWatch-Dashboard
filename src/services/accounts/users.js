@@ -27,7 +27,7 @@ export const deleteUser = (pk) => {
     
     return axios.delete(
         `${accountsUrl}/delete-user/${pk}`,{
-            headers:{ 'Content-Type': 'application/json' ,...authHeader()},
+            headers:{ 'Content-Type': 'application/json' ,...authTokenHeader()},
         }
     )
 }
@@ -63,7 +63,7 @@ export const getUser = (pk) =>{
 export const blockUser = (pk) =>{
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' ,...authHeader()},
+        headers: { 'Content-Type': 'application/json' ,...authTokenHeader()},
         
     };
     console.log(requestOptions)
@@ -72,7 +72,7 @@ export const blockUser = (pk) =>{
 export const unblockUser = (pk) =>{
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' ,...authHeader()},
+        headers: { 'Content-Type': 'application/json' ,...authTokenHeader()},
         
     };
     console.log(requestOptions)

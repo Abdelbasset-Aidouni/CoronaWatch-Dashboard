@@ -16,8 +16,8 @@ export const ArticleContainer = styled.div`
     flex-direction:column;
     background-color:white;
     border:none;
-    max-width:250px;
-    flex-basis:250px;
+    max-width:300px;
+    flex-basis:300px;
     border-radius:15px;
     padding:.8rem 0rem;
     margin:.6rem 1.2rem;
