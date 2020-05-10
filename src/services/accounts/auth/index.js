@@ -37,7 +37,9 @@ export const login = (email,password) => {
                                 console.log("------------success----------------\n",user)
                                 window.location.reload(true)
                             }else{
-                                console.log("**************error***************")
+                                logout();
+                                // window.location.reload(true);
+                                console.log("**************error***************",text)
                             }
                             
                         }
@@ -76,6 +78,16 @@ export function authTokenHeader() {
 
     if (user && user.token) {
         return { 'Authorization': 'Token ' + user.token };
+    } else {
+        return {};
+    }
+}
+export function authBasicHeader() {
+    // return authorization header with jwt token
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    if (user && user.token) {
+        return { 'Authorization': 'Basic ' + user.token };
     } else {
         return {};
     }

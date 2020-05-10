@@ -87,7 +87,7 @@ export default ({user,deleteUserHandler}) => {
         <Td>
            
             
-                
+                <div>
                 <div className="dropdown show">
                
                 <SvgIcon
@@ -110,7 +110,7 @@ export default ({user,deleteUserHandler}) => {
                     onClick={user.is_active ?  handleBlock : handleUnblock} >{isActive ? "Block" : "unBlock"}</DropdownItem>
                 </div>
                 </div>
-
+                </div>
             
         </Td>
     </Tr>

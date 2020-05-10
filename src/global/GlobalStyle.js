@@ -16,6 +16,17 @@ const GlobalStyle = createGlobalStyle`
     background: #cbcbcb !important;
     
   }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button
+  {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number]
+  {
+    -moz-appearance: textfield;
+  }
   /* .leaflet-tile {
     -webkit-filter: hue-rotate(180deg) invert(100%);
   } */

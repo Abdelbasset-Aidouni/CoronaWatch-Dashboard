@@ -136,6 +136,7 @@ const AccountsWrapper = () =>{
         loading={loading}
         // margin={0}
         />
+    <AddUserModal/>
     </>
 )}
 

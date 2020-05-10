@@ -6,8 +6,8 @@ export const ArticlesWrapper = styled.div`
     margin:.8rem 1.2rem;
     height:100%;
     min-height:400px;
-    ${props => props.blur && css`opacity:.4`}
-    transition:all .4s; 
+    ${props => props.blur && css`opacity:.4;`}
+    transition:all .2s; 
 `
 export const NextButtonContainer = styled.div`
     width:20px;

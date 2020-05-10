@@ -41,12 +41,13 @@ const Td = styled.td`
         font-weight:500;
         font-size:.8rem;
     }
-    &:last-child{
+    &:last-child > div{
         display:flex;
         justify-content:flex-end;
         align-items:center;
         border:none;
         margin:0;
+        height:100% !important;
     }
     
     &:first-child{

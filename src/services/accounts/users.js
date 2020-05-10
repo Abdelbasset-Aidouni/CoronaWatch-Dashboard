@@ -1,5 +1,5 @@
 import {apiUrl,accountsUrl} from '../../global/config'
-import {authHeader,authTokenHeader} from './auth'
+import {authHeader,authTokenHeader,authBasicHeader} from './auth'
 import axios from 'axios'
 export const fetchUsers = () => {
     const requestOptions = {
@@ -77,4 +77,15 @@ export const unblockUser = (pk) =>{
     };
     console.log(requestOptions)
     return fetch(`${accountsUrl}/unblock-user/${pk}`, requestOptions)
+}
+
+export const createUser = (user) =>{
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' ,...authTokenHeader()},
+        body: JSON.stringify(user)
+        
+    };
+    console.log(requestOptions)
+    return fetch(`${accountsUrl}/add-user/`, requestOptions)
 }
