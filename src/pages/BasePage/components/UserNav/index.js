@@ -6,7 +6,7 @@ import Bell from '../../../../assets/icons/bell.svg'
 import Settings from '../../../../assets/icons/settings.svg'
 
 export default () => (
-    <UserNavContainer>
+    <UserNavContainer id="navBar">
         <NotificationBellContainer>
             <SvgIcon
                 url={Bell}

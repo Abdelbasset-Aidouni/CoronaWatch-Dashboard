@@ -17,7 +17,7 @@ let globalState = [
 
 const goTo = (state,url = "/")=>{
     
-    const element = state.filter(item => item.url === url)[0]
+    const element = state.filter(item => (item.url === url))[0]
     let newState = state
     if (element){
         console.log(element)
@@ -32,6 +32,7 @@ const goTo = (state,url = "/")=>{
     return newState
 }
 
+console.log("location : ",window.location.pathname)
 
 export const SwitchTabReducer = (state=globalState,action) =>{
     switch (action.type){

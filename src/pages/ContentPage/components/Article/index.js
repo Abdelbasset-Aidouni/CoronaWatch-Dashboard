@@ -4,7 +4,8 @@ import Truncate from 'react-truncate'
 import SvgIcon from '../../../../components/SvgIcon'
 import Avatar from '../../../../assets/resources/avatar.jpg'
 import Calendar from '../../../../assets/icons/calendar.svg'
-import { Player } from 'video-react';
+import FileType from 'file-type'
+import got from 'got'
 import {getUser} from '../../../../services/accounts/users'
 import {validateUserPost,rejectUserPost} from '../../../../services/content'
 import Button from '../Button'
@@ -20,21 +21,23 @@ import {
     ActionsContainer,
     Badge,
     BadgeContainer,
-    Title
+    Title,
+    ArticleHeader
 } from './style'
 import Heading from '../../../../components/Heading'
-
+import {contentUrl} from '../../../../global/config'
+import {makeTokenizer} from '@tokenizer/http'
+import { Link } from 'react-router-dom'
 
 var mime = require('mime-types')
 
-const isImage = (path) => mime.lookup(path) && mime.lookup(path).search("image") > -1
-const isVideo = (path) => mime.lookup(path) && mime.lookup(path).search("video") > -1
 
 const TextContentAuto = styled(TextContent)`min-height:220px;height:auto; `
 
 export default ({pk,title,file,content,user,date_posted,status}) => {
     var [userObject,setUser] = useState({})
     var [statusState,setStatus] = useState(status)
+    const [fileType,setFileType] = useState("")
     useEffect(()=>{
         const getUser_ = async () => {
             await getUser(user).then(res => {
@@ -47,7 +50,13 @@ export default ({pk,title,file,content,user,date_posted,status}) => {
                 }
             })
         }
+        const getFileType = async () => {
+            const tokenizer = await makeTokenizer(file)
+            const type = await FileType.fromTokenizer(tokenizer)
+            setFileType(type.mime)
+        }
         getUser_()
+        getFileType()
     },[])
 
     const handleValidate = async () =>{
@@ -77,34 +86,43 @@ export default ({pk,title,file,content,user,date_posted,status}) => {
                     }
                 })
     }
+    const isVideo = (fileType) => fileType.search("video") > -1 
+    const isImage = (fileType) => fileType.search("image") > -1
     return (
         <ArticleContainer>
-            <Title>
-                <Truncate lines={1} ellipsis={<span>...</span>}>
-                            {title} {console.log("user",content,pk)}
-                </Truncate>
-            </Title>
+            
+                
+                    <Title>
+                        {title.substring(0,30)}...
+                        {/* <Truncate lines={1} ellipsis={<span>...</span>}>
+                                    {title}
+                        </Truncate> */}
+                    </Title>
+                
+                
+            
+            
             {
-                isImage(file) || isVideo(file) ? 
+                isImage(fileType) || isVideo(fileType) ? 
                 <>
                     <MediaContent>
                         {
-                        isImage(file) ? 
+                        isImage(fileType) ? 
                         <img src={file} alt={title}/> 
-                        : isVideo(file) ? 
+                        : isVideo(fileType) ? 
                         <video controls > <source src={file} /> </video> 
                         : <span></span>
                         }
                     </MediaContent>
                     <TextContent>
-                        <Truncate lines={3} ellipsis={<span>... <a href='/link/to/article'>more</a></span>}>
+                        <Truncate lines={3} ellipsis={<span>... <Link  to={`content/${pk}`}>more</Link></span>}>
                             {content}
                         </Truncate>
                     </TextContent>
                 </>
                 :
                 <TextContentAuto>
-                    <Truncate lines={20} ellipsis={<span>... <a href='/link/to/article'>more</a></span>}>
+                    <Truncate lines={20} ellipsis={<span>... <Link to={`content/${pk}`}>more</Link></span>}>
                         {content}
                     </Truncate>
                 </TextContentAuto>

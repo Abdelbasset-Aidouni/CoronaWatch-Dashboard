@@ -42,7 +42,7 @@ const AccountsWrapper = () =>{
             const fetchData = async ()=>{
                 setLoading(true)
                 const result = await fetchUsers()
-                setAccounts(result)
+                setAccounts(result.results)
                 setLoading(false)
                 
             }

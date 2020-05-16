@@ -6,7 +6,7 @@ export const fetchUsers = () => {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' ,...authHeader()},
     };
-    return fetch(`${accountsUrl}/users/`, requestOptions)
+    return fetch(`${accountsUrl}/users/?limit=1000`, requestOptions)
         .then(res => res.text()
                         .then(text => {
                             if (res.ok){

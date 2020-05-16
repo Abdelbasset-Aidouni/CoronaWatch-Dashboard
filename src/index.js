@@ -14,6 +14,7 @@ import AccountsPage from './pages/AccountsPage'
 import {Provider} from 'react-redux'
 import store from './store/store'
 import ContentPage from './pages/ContentPage';
+import ContentDetailPage from './pages/ContentDetailPage'
 import CommentsPage from "./pages/CommentsPage"
 import ReportedCasesPage from './pages/ReportedCasesPage'
 import HomePage from './pages/HomePage'
@@ -32,7 +33,8 @@ ReactDOM.render(
         <PrivateRoute exact path="/" component={HomePage}/>
         <LoginRoute path="/login" component={LoginPage}/>
         <PrivateRoute path="/accounts" component={AccountsPage} />
-        <PrivateRoute path="/content" component={ContentPage} />
+        <PrivateRoute exact path="/content" component={ContentPage} />
+        <PrivateRoute path="/content/:id"  component={ContentDetailPage} />
         <PrivateRoute path="/comments" component={CommentsPage} />
         <PrivateRoute path="/reported-cases" component={ReportedCasesPage} />
         <Redirect from="*" to="/" />

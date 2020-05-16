@@ -53,10 +53,22 @@ export const rejectUserPost = (pk) => {
     return fetch(`${contentUrl}/post/moderator/status/${pk}`, requestOptions)
 }
 
+export const getPost = (pk) =>{
+    const requestOptions = {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json',
+            ...authTokenHeader()
+        },
+    };
+    
+    return fetch(`${contentUrl}/posts/${pk}`, requestOptions)
+}
+
 export const fetchRedactorsPosts = () => {
     return new Promise(function(resolve, reject) {
 
-        setTimeout(() => resolve([]), 1000); // (*)
+        setTimeout(() => resolve({results :[]}), 1000); // (*)
       
       })
 }
@@ -64,7 +76,7 @@ export const fetchRedactorsPosts = () => {
 export const fetchRobotsPosts = () => {
     return new Promise(function(resolve, reject) {
 
-        setTimeout(() => resolve([]), 1000); // (*)
+        setTimeout(() => resolve({results:[]}), 1000); // (*)
       
       })
 }

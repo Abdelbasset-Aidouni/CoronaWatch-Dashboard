@@ -8,9 +8,11 @@ export const ModalWrapper = styled.div`
     width:100%;
     background-color:black;
     opacity:.3;
+    display:none;
 `
 
 export const ModalContainer = styled.div`
+    display:none;
     position:absolute;
     background-color:white;
     border-radius:5px;
@@ -25,6 +27,21 @@ export const FormContainer = styled.form`
     display: flex;
     justify-content:space-between;
     padding:1rem 1rem;
+`
+
+export const Header = styled.div`
+    display:flex;
+    justify-content:space-between;
+    
+`
+export const CloseBtn = styled.span`
+    font-size:1.6rem;
+    cursor:pointer;
+    transition: all .4s;
+    font-weight:500;
+    &:hover{
+        color:#121B54;
+    }
 `
 
 export const Col = styled.div`

@@ -9,6 +9,7 @@ export const Title = styled.h3`
     padding:.6rem 0rem;
     margin-left:.8rem;
     margin-right:.8rem;
+    position:relative;
 `
 
 export const ArticleContainer = styled.div`
@@ -94,4 +95,11 @@ export const BadgeContainer = styled.div`
     display:flex;
     justify-content:flex-start;
     margin:.3rem .8rem;
+`
+
+export const ArticleHeader = styled.div`
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
 `

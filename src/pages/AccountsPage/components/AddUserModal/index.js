@@ -10,8 +10,11 @@ import {
     Col,
     Label,
     DateInputContainer,
-    BirthDateField
+    BirthDateField,
+    Header,
+    CloseBtn
 } from './style'
+import Button from '../../../ContentPage/components/Button'
 import '../../../../components/CustomSelect/index'
 import SvgIcon from '../../../../components/SvgIcon'
 import Heading from '../../../../components/Heading'
@@ -24,7 +27,11 @@ import {createUser} from '../../../../services/accounts/users'
 
 
 
-
+const ButtonSubmit = styled(Button)`
+    margin-top:1rem;
+    margin-left:1.6rem;
+    margin-bottom:1rem;
+`
 
 const DateInput = styled(TextField)`
     flex-basis:27%;
@@ -54,21 +61,31 @@ export default () =>{
             formData[value.name] = value.value
             if (value.name === "password") formData["password2"] = value.value
         })
+        formData['is_active'] = true
         
         console.log(formData)
         await createUser(formData)
-            .then(res => res.text()
-            .then(text => console.log(text))
-            )
+            .then(res => {
+                if (res.status === 200){
+                    window.$.alert({title:"Success",content:'User Created Successfully'})
+                    $('#modalWrapper,#addUserModal').fadeToggle('slow')
+                }else{
+                    window.$.alert({title:"Failed",content:'Sorry an Error Occured, Try Later'})
+                    $('#modalWrapper,#addUserModal').fadeToggle('slow')
+                }
+            } )
+            
     }
     return (
     <>
-        <ModalWrapper/>
-        <ModalContainer>
-            <Heading
-            size="h3"
-            >Add User</Heading>
-            <hr/>
+        <ModalWrapper id="modalWrapper"/>
+        <ModalContainer id="addUserModal">
+            <Header>
+            <Heading size="h3">Add User</Heading>
+            <CloseBtn onClick={() => $('#modalWrapper,#addUserModal').fadeToggle('slow')} >&times;</CloseBtn>
+            </Header>
+            
+            <hr style={{margin:"0"}} />
             <FormContainer id="addUserForm">
                 
                 <Col>
@@ -127,7 +144,7 @@ export default () =>{
                 </Col>
                 
             </FormContainer>
-            <button onClick={formSubmitionHandler}>submit</button>
+            <ButtonSubmit onClick={formSubmitionHandler} active large>Create User</ButtonSubmit>
             
         </ModalContainer>
     </>

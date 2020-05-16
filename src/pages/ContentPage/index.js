@@ -46,7 +46,7 @@ const ContentWrapper = () =>{
         const fetch = async () =>{
             setBlurState(true)
             setLoading(true)
-            await Articles.fetch().then(res => setArticles(res))
+            await Articles.fetch().then(res => setArticles(res.results))
             setLoading(false)
             setBlurState(false)
         }
@@ -55,7 +55,6 @@ const ContentWrapper = () =>{
     return (
     <>
         <Header/>
-        {console.log("articles",Articles)}
         <ArticlesWrapper blur={blurState}>
             <NextButtonContainer>
                 <SvgIcon
