@@ -22,7 +22,7 @@ const Th = styled.th`
     margin:1.2rem 1.6rem;
     text-align:center;
     
-    &:first-child{
+    &:first-child,&:nth-child(2){
         text-align:left;
     }
 `
@@ -36,6 +36,7 @@ const Td = styled.td`
     &:nth-child(2){
         font-weight:700;
         font-size:.8rem;
+        text-align:left;
     }
     &:nth-child(3),&:nth-child(4){
         font-weight:500;

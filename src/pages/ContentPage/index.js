@@ -4,22 +4,21 @@ import styled from 'styled-components'
 import Header from './components/Header'
 import Article from './components/Article'
 import SvgIcon from '../../components/SvgIcon'
-import {ArticlesWrapper,NextButtonContainer} from './style'
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
-import NextIcon from '../../assets/icons/next-button.svg'
-import BackIcon from '../../assets/icons/back-button.svg'
+import {ArticlesWrapper,TableContainer} from './style'
+import {
+    TableStyle,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr
+} from './components/Table'
+import ArticleLine from './components/ArticleLine'
 import {useSelector,useDispatch} from 'react-redux'
 import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
 
-const HiddenNextButton = styled(ButtonNext)`
-    display:none;
-`
-const HiddenBackButton = styled(ButtonBack)`
-    display:none;
-`
+
 // const CustomCarouselProvider = styled
 const TestLoader = styled.div`
     width:40px;
@@ -52,61 +51,43 @@ const ContentWrapper = () =>{
         }
         fetch()
     },[Articles,])
+
+    const deleteArticle = (pk) =>{
+        setArticles(pre => pre.filter(item => item.pk !== pk))
+    }
     return (
     <>
         <Header/>
         <ArticlesWrapper blur={blurState}>
-            <NextButtonContainer>
-                <SvgIcon
-                    url={BackIcon}
-                    size="contain"
-                    width="20px"
-                    height="20px"
-                    pointer
-                    onClick={() => document.getElementById("backButton").click()}
-                />
-                
-            </NextButtonContainer>
+            <TableContainer>
+                <TableStyle>
+                    <Thead>
+                        <Tr>
+                            <Th>ID</Th>
+                            <Th>Article Title</Th>
+                            <Th>Publisher</Th>
+                            <Th>Publish date</Th>
+                            <Th>status</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {
+                            articles.filter(item => !item.deleted).sort(function(a,b){
+                                if (a.status === "pending") return -1
+                                else if (b.status === "pending") return 1
+                                else return 0
+                            }).map(article => <ArticleLine 
+                                article={article} 
+                                deleteHandler={deleteArticle}
+                                /> )
+                        }
+                    </Tbody>
+                </TableStyle>
+            </TableContainer>
         
         
-         <CarouselProvider
-                naturalSlideWidth={100}
-                naturalSlideHeight={140}
-                totalSlides={articles.length}
-                visibleSlides={3}
-            >
-            <Slider>
-            {
-                    articles.map(article => 
-                        <Slide>
-                            {console.log("article",article)}
-                            <Article 
-                                pk={article.pk}
-                                title={article.title}
-                                file={article.file}
-                                content={article.content}
-                                user={article.user}
-                                date_posted={article.date_posted}
-                                status={article.status}
-                            />
-                        </Slide>
-                        )
-                }
-            </Slider>
-            <HiddenNextButton id="nextButton">Next</HiddenNextButton>
-            <HiddenBackButton id="backButton"></HiddenBackButton>
-        </CarouselProvider>
-        <NextButtonContainer>
-            <SvgIcon
-                url={NextIcon}
-                size="contain"
-                width="20px"
-                height="20px"
-                pointer
-                onClick={() => document.getElementById("nextButton").click()}
-            />
-            
-        </NextButtonContainer>
+         
+       
         
       </ArticlesWrapper>
       <PulseLoader

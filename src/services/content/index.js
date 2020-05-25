@@ -6,10 +6,10 @@ import {authHeader,authTokenHeader} from '../accounts/auth'
 
 export const fetchUsersPosts = async () => {
     return axios.get(
-        `${contentUrl}/posts/`,{
+        `${contentUrl}/posts/?limit=1000`,{
             headers: {
                 'Content-Type': 'application/json',
-                ...authHeader()
+                ...authTokenHeader()
                 
             }
         }
@@ -52,6 +52,32 @@ export const rejectUserPost = (pk) => {
     console.log(requestOptions)
     return fetch(`${contentUrl}/post/moderator/status/${pk}`, requestOptions)
 }
+export const setPendingUserPost = (pk) => {
+    const requestOptions = {
+        method: 'PATCH',
+        headers:{
+            'Content-Type': 'application/json',
+            ...authTokenHeader()
+        },
+        body: JSON.stringify({ status:"pending" })
+        
+    };
+    console.log(requestOptions)
+    return fetch(`${contentUrl}/post/moderator/status/${pk}`, requestOptions)
+}
+export const deleteUserPost = (pk) => {
+    const requestOptions = {
+        method: 'PATCH',
+        headers:{
+            'Content-Type': 'application/json',
+            ...authTokenHeader()
+        },
+        body: JSON.stringify({ deleted:true })
+        
+    };
+    console.log(requestOptions)
+    return fetch(`${contentUrl}/post/moderator/status/${pk}`, requestOptions)
+}
 
 export const getPost = (pk) =>{
     const requestOptions = {
@@ -66,11 +92,23 @@ export const getPost = (pk) =>{
 }
 
 export const fetchRedactorsPosts = () => {
-    return new Promise(function(resolve, reject) {
-
-        setTimeout(() => resolve({results :[]}), 1000); // (*)
-      
-      })
+    return axios.get(
+        `${contentUrl}/writer-posts/?limit=1000`,{
+            headers: {
+                'Content-Type': 'application/json',
+                ...authTokenHeader()
+                
+            }
+        }
+    ).then(res => {
+        if (res.status === 200){
+            console.log("success response data",res.data)
+            return res.data
+        }else{
+            console.log("error response data",res.data)
+            return []
+        }
+    })
 }
 
 export const fetchRobotsPosts = () => {

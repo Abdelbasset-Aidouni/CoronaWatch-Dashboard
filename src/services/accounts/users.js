@@ -4,7 +4,7 @@ import axios from 'axios'
 export const fetchUsers = () => {
     const requestOptions = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' ,...authHeader()},
+        headers: { 'Content-Type': 'application/json' ,...authTokenHeader()},
     };
     return fetch(`${accountsUrl}/users/?limit=1000`, requestOptions)
         .then(res => res.text()
@@ -54,7 +54,7 @@ export const deleteUser = (pk) => {
 export const getUser = (pk) =>{
     return axios.get(
         `${accountsUrl}/user/${pk}`,{
-            headers:{ 'Content-Type': 'application/json' ,...authHeader()},
+            headers:{ 'Content-Type': 'application/json' ,...authTokenHeader()},
         }
     )
 }
