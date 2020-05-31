@@ -70,13 +70,24 @@ const MapContainer = styled.div`
         vertical-align: middle;
     }
 `
+const EventsContainer = styled.div`
+    display:flex;
+    width:25%;
+    flex-direction:column;
+    margin: .4rem 1.2rem;
+    background-color:white;
+    border-radius:5px;
+    height:400px;
+`
 
-
-
+const Wrapper = styled.div`
+    display:flex;
+`
 
 const HomeContainer = () =>{
     const [tooltip,setTooltip] = useState("")
     return (
+        <Wrapper>
         <MainContentContainer>
             <CardsContainer>
             {data.data.map(info =>(
@@ -110,6 +121,8 @@ const HomeContainer = () =>{
             </MapContainer>
             
         </MainContentContainer>
+        <EventsContainer></EventsContainer>
+        </Wrapper>
     )
 }
 

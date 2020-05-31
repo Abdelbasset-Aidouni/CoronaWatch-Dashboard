@@ -18,6 +18,7 @@ import ContentDetailPage from './pages/ContentDetailPage'
 import CommentsPage from "./pages/CommentsPage"
 import ReportedCasesPage from './pages/ReportedCasesPage'
 import HomePage from './pages/HomePage'
+import StatisticsPage from './pages/Statistics'
 import floatThead from 'floatthead'
 var bs = require('bootstrap')
 
@@ -37,6 +38,7 @@ ReactDOM.render(
         <PrivateRoute path="/content/:id"  component={ContentDetailPage} />
         <PrivateRoute path="/comments" component={CommentsPage} />
         <PrivateRoute path="/reported-cases" component={ReportedCasesPage} />
+        <PrivateRoute path="/statistics" component={StatisticsPage} />
         <Redirect from="*" to="/" />
       </Switch>
       </BrowserRouter>

@@ -3,6 +3,7 @@ import Accounts from '../../assets/icons/accounts.svg'
 import Content from '../../assets/icons/content.svg'
 import Comments from '../../assets/icons/comments.svg'
 import Warning from '../../assets/icons/warning.svg'
+import Stats from '../../assets/icons/stats.svg'
 
 
 let globalState = [
@@ -11,6 +12,7 @@ let globalState = [
     {id:2,item:"Content",selected:false,icon:Content,url:"/content"},
     {id:3,item:"Comments",selected:false,icon:Comments,url:"/comments"},
     {id:4,item:"Reported Cases",selected:false,icon:Warning,url:"/reported-cases"},
+    {id:5,item:"Statistics",selected:false,icon:Stats,url:"/statistics"},
 ]
 
 
