@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled,{css} from 'styled-components'
 import SelectField from '../SelectField'
 import NumberField from '../NumberField'
 
@@ -11,7 +11,15 @@ export const FlexContainer = styled.div`
     display:flex;
     align-items:center;
     justify-content:flex-start;
-    margin:.6rem 2.2rem;
+    margin:.6rem 3rem;
+`
+export const SubmitContainer = styled.div`
+    display:flex;
+    justify-content:center;
+    margin:.6rem 3rem;
+    & button{
+        ${css`flex-grow:1 !important;max-width:40% !important;`}
+    }
 `
 
 export const Input = styled(NumberField)`

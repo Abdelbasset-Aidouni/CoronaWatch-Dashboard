@@ -7,11 +7,12 @@ import {
     Input,
     NumberFieldsContainer,
     Wrapper,
-    FlexContainer
+    FlexContainer,
+    SubmitContainer
 } from './style'
 import SwitchButton from '../../../../components/SwitchButton'
 import Heading from '../../../../components/Heading'
-
+import Button from '../../../ContentPage/components/Button'
 
 export default () => {
     const [states,setState]  = useState([{value:1,display:"Boumerdes"},{value:1,display:"Boumerdes"}])
@@ -44,10 +45,12 @@ export default () => {
                 
             </NumberFieldsContainer>
             <FlexContainer>
-                    <Heading size="h6">Risky Area </Heading>
-                    <SwitchButton name="risk" />
-                </FlexContainer>
-            
+                <Heading size="h6">Risky Area </Heading>
+                <SwitchButton name="risk" />
+            </FlexContainer>
+            <SubmitContainer>
+                <Button selected large> Create </Button>
+            </SubmitContainer>
             
         </Wrapper>
     )
