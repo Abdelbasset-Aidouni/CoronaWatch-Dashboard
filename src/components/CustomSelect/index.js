@@ -2,8 +2,10 @@ import $ from 'jquery'
 import './style.css'
 
 
-$(document).ready(function(){
 
+
+
+export function setUpSelectField(){
     var x, i, j, selElmnt, a, b, c;
 /* Look for any elements with the class "custom-select": */
 x = document.getElementsByClassName("custom-select");
@@ -21,22 +23,27 @@ for (i = 0; i < x.length; i++) {
     /* For each option in the original select element,
     create a new DIV that will act as an option item: */
     c = document.createElement("DIV");
+    
     c.innerHTML = selElmnt.options[j].innerHTML;
     c.addEventListener("click", function(e) {
         /* When an item is clicked, update the original select box,
         and the selected item: */
         var y, i, k, s, h;
+        
         s = this.parentNode.parentNode.getElementsByTagName("select")[0];
         h = this.parentNode.previousSibling;
         for (i = 0; i < s.length; i++) {
-          if (s.options[i].innerHTML == this.innerHTML) {
+          if (s.options[i].innerHTML === this.innerHTML) {
             s.selectedIndex = i;
+            s.click()
             h.innerHTML = this.innerHTML;
             y = this.parentNode.getElementsByClassName("same-as-selected");
             for (k = 0; k < y.length; k++) {
               y[k].removeAttribute("class");
+              
             }
             this.setAttribute("class", "same-as-selected");
+            
             break;
           }
         }
@@ -62,7 +69,7 @@ function closeAllSelect(elmnt) {
   x = document.getElementsByClassName("select-items");
   y = document.getElementsByClassName("select-selected");
   for (i = 0; i < y.length; i++) {
-    if (elmnt == y[i]) {
+    if (elmnt === y[i]) {
       arrNo.push(i)
     } else {
       y[i].classList.remove("select-arrow-active");
@@ -78,5 +85,10 @@ function closeAllSelect(elmnt) {
 /* If the user clicks anywhere outside the select box,
 then close all select boxes: */
 document.addEventListener("click", closeAllSelect);
+}
 
-})
+export const ReInitializeSelect = () =>{
+  $('.select-items').remove()
+  $('.select-selected').remove()
+  setUpSelectField()
+}

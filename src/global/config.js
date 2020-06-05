@@ -1,4 +1,5 @@
 export const apiUrl = "http://accountapi.herokuapp.com/api"
-
-export const accountsUrl = "https://solutusprojet.herokuapp.com/api-account"
-export const contentUrl = "https://solutusprojet.herokuapp.com/api-content"
+const baseApi = "http://solutusprojet.herokuapp.com"
+export const accountsUrl = `${baseApi}/api_account`
+export const contentUrl = `${baseApi}/api-content`
+export const mapUrl = `${baseApi}/api-map`

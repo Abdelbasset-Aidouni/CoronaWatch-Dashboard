@@ -25,6 +25,14 @@ export const logout = () => {
         type:'LOGOUT'
     }
 }
+export const fetchWilayas = (data) => ({
+    type:"FETCH_WILAYAS",
+    data
+})
+export const fetchCommunes = (data) => ({
+    type:"FETCH_COMMUNES",
+    data
+})
 
 
 

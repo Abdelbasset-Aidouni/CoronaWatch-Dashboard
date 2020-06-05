@@ -6,13 +6,20 @@ import {
 } from './style'
 
 
-export default () => {
+export default ({setCurrentForm,currentForm}) => {
     return (
         <>
         <Container>
             <ButtonsContainer>
-                <Button left selected >National</Button>
-                <Button>International</Button>
+                <Button 
+                left 
+                selected={currentForm === "national"} 
+                onClick={() => setCurrentForm("national") }
+                >National</Button>
+                <Button
+                onClick={() => setCurrentForm("international") }
+                selected={currentForm === "international"} 
+                >International</Button>
             </ButtonsContainer>
         </Container>
         </>

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery-confirm/js/jquery-confirm'
@@ -20,6 +21,7 @@ import ReportedCasesPage from './pages/ReportedCasesPage'
 import HomePage from './pages/HomePage'
 import StatisticsPage from './pages/Statistics'
 import floatThead from 'floatthead'
+
 var bs = require('bootstrap')
 
 

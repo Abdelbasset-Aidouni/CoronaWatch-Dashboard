@@ -11,3 +11,101 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  padding:.6rem 1rem;
+  margin: .4rem .6rem;
+  height: initial;
+  border: none !important;
+  border-radius: 15px;
+  background-color:#F7F7F7;
+  
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+.custom-select:after{
+  display: none !important;
+}
+.select-selected {
+  
+  color: #49514A !important;
+  top:0;
+  right: 0;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  border: none !important;
+  
+  height: 100% !important;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  display: none;
+  content: "";
+  top: 25px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #49514A transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #49514A transparent;
+  display: none;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: #7f855c;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  max-height: 200px !important;
+  overflow-y: scroll;
+}
+/* width */
+.select-items::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.select-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.select-items::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.select-items::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}

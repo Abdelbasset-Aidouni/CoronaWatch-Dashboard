@@ -4,7 +4,7 @@ import NumberField from '../NumberField'
 
 
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.form`
     margin-top:3rem;
 `
 export const FlexContainer = styled.div`

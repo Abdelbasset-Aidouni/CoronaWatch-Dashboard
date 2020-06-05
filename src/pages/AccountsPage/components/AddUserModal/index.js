@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import $ from "jquery"
@@ -21,7 +21,7 @@ import Heading from '../../../../components/Heading'
 import styled from 'styled-components'
 import Calendar from "../../../../assets/icons/calendar-1.png"
 import {createUser} from '../../../../services/accounts/users'
- 
+import {setUpSelectField} from '../../../../components/CustomSelect' 
 
 
 
@@ -51,8 +51,12 @@ const HiddenDatePicker = styled(DatePicker)`
 display:none;
 `
 export default () =>{
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date(1995,10,19));
     
+    useEffect(()=>{
+        setUpSelectField()
+    },[])
+
     const formSubmitionHandler = async () =>  {
         let data = $('#addUserForm').serializeArray()
         let formData = {};
