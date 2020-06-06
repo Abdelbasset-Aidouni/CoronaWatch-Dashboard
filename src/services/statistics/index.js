@@ -41,3 +41,28 @@ export const createNationalZone = (data) =>{
     console.log(requestOptions)
     return fetch(`${mapUrl}/national-zone/create/`, requestOptions)
 }
+
+export const createInterNationalZone = (data) =>{
+    const requestOptions = {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            ...authTokenHeader()
+        },
+        body:JSON.stringify(data)
+    };
+    console.log(requestOptions)
+    return fetch(`${mapUrl}/international-zone/create/`, requestOptions)
+}
+
+export const getNationalZones =() =>{
+    const requestOptions = {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json',
+            ...authTokenHeader()
+        },
+    };
+    console.log(requestOptions)
+    return fetch(`${mapUrl}/national-zone/?limit=1000000`, requestOptions)
+}

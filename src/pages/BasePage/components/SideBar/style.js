@@ -38,7 +38,18 @@ const SideBarContainer = styled.div`
     min-height:100% !important;
     box-shadow: 13px -2px 18px -18px rgba(0,0,0,0.49);
 `
-
+export const LogoutContainer = styled.div`
+    /* margin-top:2rem; */
+    display:flex;
+    flex-direction:column;
+    
+    align-items:center;
+`
+export const Divider = styled.hr`
+    color:white;
+    width:60%;
+    border-top:solid #B7B7B749 .5px;
+`
 
 export {
     NavItem,

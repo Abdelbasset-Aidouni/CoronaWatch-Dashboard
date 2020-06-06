@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import BasePage from '../BasePage'
 import styled, { css } from 'styled-components'
 import Heading from '../../components/Heading'
@@ -10,6 +10,8 @@ import ReactTooltip from "react-tooltip"
 import data from '../../data/general_info.json'
 import Map from './map'
 import LeafMap from './map/leaf'
+import {getNationalZones} from '../../services/statistics'
+
 
 
 const CardsContainer = styled.div`
@@ -86,34 +88,122 @@ const Wrapper = styled.div`
 
 const HomeContainer = () =>{
     const [tooltip,setTooltip] = useState("")
+    const [statData,setStatData] = useState([])
+
+
+    useEffect(() =>{
+        
+            const _wilayas = async () => {
+                await getNationalZones().then(res => {
+                    if (res.status === 200){
+                        res.json().then(json =>{setStatData(json.results)} )
+                    }else{
+                        window.$.alert({title:"Failed to fetch Statistics Data ",content:"please refresh the page or contact the administration and help us get the app to work correctly"})
+                    }
+                })
+                
+            }
+            _wilayas()
+        },[])
     return (
         <Wrapper>
         <MainContentContainer>
             <CardsContainer>
-            {data.data.map(info =>(
+            
                 <InfoCard>
-                    <Heading size="h3"> {info.title}</Heading>
+                    <Heading size="h3"> Infected </Heading>
                     <Heading
                         size="h1"
                         weight="600"
                     >
-                        {info.count}
+                        {statData.reduce((total,item)=> total + item.infected,0)}
                     </Heading>
                     <ProgressContainer>
                         <StatusProgressIcon
-                            url={info.is_good ? StatusUp : StatusDown}
+                            url={true ? StatusUp : StatusDown}
                             width="10px"
                             height="20px"
                             size="contain"
-                            danger={info.is_good ? false : true}
+                            danger={true}
                         />
                         <ProgressText
-                            danger={info.is_good ? false : true}
+                            danger= {true}
                         > 0.39% </ProgressText>
                     </ProgressContainer>
                 </InfoCard>
-            ))}
+
+                <InfoCard>
+                    <Heading size="h3"> Sick </Heading>
+                    <Heading
+                        size="h1"
+                        weight="600"
+                    >
+                        {statData.reduce((total,item)=> total + item.sick,0)}
+                    </Heading>
+                    <ProgressContainer>
+                        <StatusProgressIcon
+                            url={true ? StatusUp : StatusDown}
+                            width="10px"
+                            height="20px"
+                            size="contain"
+                            danger={true}
+                        />
+                        <ProgressText
+                            danger= {true}
+                        > 0.39% </ProgressText>
+                    </ProgressContainer>
+                </InfoCard>
+
+                <InfoCard>
+                    <Heading size="h3"> Recovered </Heading>
+                    <Heading
+                        size="h1"
+                        weight="600"
+                    >
+                        {statData.reduce((total,item)=> total + item.recovered,0)}
+                    </Heading>
+                    <ProgressContainer>
+                        <StatusProgressIcon
+                            url={true ? StatusUp : StatusDown}
+                            width="10px"
+                            height="20px"
+                            size="contain"
+                            danger={true}
+                        />
+                        <ProgressText
+                            danger= {true}
+                        > 0.39% </ProgressText>
+                    </ProgressContainer>
+                </InfoCard>
+
+                <InfoCard>
+                    <Heading size="h3"> Death </Heading>
+                    <Heading
+                        size="h1"
+                        weight="600"
+                    >
+                        {statData.reduce((total,item)=> total + item.dead,0)}
+                    </Heading>
+                    <ProgressContainer>
+                        <StatusProgressIcon
+                            url={false ? StatusUp : StatusDown}
+                            width="10px"
+                            height="20px"
+                            size="contain"
+                            danger={false}
+                        />
+                        <ProgressText
+                            danger= {false}
+                        > 0.39% </ProgressText>
+                    </ProgressContainer>
+                </InfoCard>
+          
                 
+
+
+
+
+
             </CardsContainer>
             <MapContainer>
                 <LeafMap setTooltip={setTooltip}/>

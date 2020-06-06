@@ -1,11 +1,12 @@
 import React from 'react'
 import Logo from '../../../../assets/resources/Logo-header.svg'
-import {NavItem,SideBarContainer,NavItemsContainer} from './style'
+import Logout from '../../../../assets/icons/logout.svg'
+import {NavItem,SideBarContainer,NavItemsContainer,LogoutContainer,Divider} from './style'
 import SvgIcon from '../../../../components/SvgIcon'
 import Heading from '../../../../components/Heading'
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'
-import {switchTab} from '../../../../store/actions'
+import {switchTab,logout} from '../../../../store/actions'
 
 import {useSelector,useDispatch} from 'react-redux'
 
@@ -31,7 +32,11 @@ export default () => {
         history.push(element.url)
     }
 
-    
+    const logoutHandler = () =>{
+        dispatch(logout())
+        dispatch(switchTab("/"))
+        history.push('/')
+    }
     
 
     
@@ -74,6 +79,18 @@ export default () => {
             
             
         </NavItemsContainer>
+        <LogoutContainer>
+            <Divider/>
+            <SvgIcon
+            url={Logout}
+            size="contain"
+            width="30px"
+            height="30px"
+            white
+            pointer
+            onClick={logoutHandler}
+            />
+        </LogoutContainer>
         
     </SideBarContainer>
     </>

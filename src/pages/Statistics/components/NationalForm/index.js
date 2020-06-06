@@ -51,7 +51,7 @@ export default () => {
         console.log("formdata : ", formData)
         await createNationalZone(formData)
             .then(res => {
-                if (res.status === 200){
+                if (res.status === 201){
                     window.$.alert({title:"Success",content:'Zone Created Successfully'})
                     
                 }else{

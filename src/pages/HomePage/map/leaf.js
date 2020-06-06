@@ -3,6 +3,7 @@ import { Map, TileLayer, Marker, Popup,Tooltip,CircleMarker } from 'react-leafle
 import L, { circle } from 'leaflet'
 import styled from 'styled-components'
 import data from '../../../data/cases.json'
+import {getNationalZones} from '../../../services/statistics'
 const CustomCircle = styled(CircleMarker)`
   stroke-width: 1;
   &:hover{
@@ -23,15 +24,33 @@ const rounded = num => {
 };
 const infectedList = data.data.map(e => e.infected)
 const maxInfectedCount = Math.max(...infectedList)
-const getRadius = (count) => {
-  return (4 + (count/maxInfectedCount) * 30 )
-}
+// const getRadius = (count) => {
+//   return (10 + (count/maxInfectedCount) * 30 )
+// }
 
 export default class SimpleExample extends Component{
   state = {
-    lat: 36.505,
-    lng: 0.09,
-    zoom: 2,
+    lat: 35.191767,
+    lng: 2.930613,
+    zoom: 6,
+    data:[],
+  }
+
+  getRadius = (count) => {
+    const infectedList = this.state.data.map(e => e.infected)
+    const maxInfectedCount = Math.max(...infectedList)
+    return (5 + (count/maxInfectedCount) * 30 )
+  }
+
+  componentDidMount() {
+    const fetchData = async () =>{
+      await getNationalZones().then(res =>{
+        if (res.ok){
+          res.json().then(json => this.setState(state => ({...state,data:json.results})))
+        }
+      })
+    }
+    fetchData()
   }
 
   render() {
@@ -46,8 +65,8 @@ export default class SimpleExample extends Component{
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {data.data.map(geo =>
-            <CustomCircle  center={[geo.latitude,geo.longitude]} radius={getRadius(geo.infected)} fillColor="#ff0f26" color="#ff0f26" >
+        {this.state.data.map(geo =>
+            <CustomCircle  center={[geo.x,geo.y]} radius={this.getRadius(geo.infected)} fillColor="#ff0f26" color="#ff0f26" >
               <Tooltip>
                 {geo.name} : {geo.infected} infected
               </Tooltip>
