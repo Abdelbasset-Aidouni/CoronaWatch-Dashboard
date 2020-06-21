@@ -30,6 +30,13 @@ const GlobalStyle = createGlobalStyle`
   /* .leaflet-tile {
     -webkit-filter: hue-rotate(180deg) invert(100%);
   } */
+
+  label.error{
+    display:block;
+    font-size:.725rem;
+    color:red;
+    margin-left:1rem;
+  }
 `;
 
 

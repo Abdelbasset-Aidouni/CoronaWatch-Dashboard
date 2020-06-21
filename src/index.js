@@ -20,12 +20,14 @@ import CommentsPage from "./pages/CommentsPage"
 import ReportedCasesPage from './pages/ReportedCasesPage'
 import HomePage from './pages/HomePage'
 import StatisticsPage from './pages/Statistics'
+import PublishArticlePage from './pages/PublishArticlePage'
 import floatThead from 'floatthead'
 
 var bs = require('bootstrap')
 
 
-window.$ = window.jQuery = require('jquery')
+window.$  = require('jquery')
+window.jQuery = window.$
 window.$.floatThead = floatThead
 
 ReactDOM.render(
@@ -41,6 +43,7 @@ ReactDOM.render(
         <PrivateRoute path="/comments" component={CommentsPage} />
         <PrivateRoute path="/reported-cases" component={ReportedCasesPage} />
         <PrivateRoute path="/statistics" component={StatisticsPage} />
+        <PrivateRoute path="/publish-article" component={PublishArticlePage} />
         <Redirect from="*" to="/" />
       </Switch>
       </BrowserRouter>

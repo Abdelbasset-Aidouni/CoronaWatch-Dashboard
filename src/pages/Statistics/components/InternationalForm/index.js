@@ -1,9 +1,12 @@
 import React,{useState} from 'react'
 import $ from 'jquery'
+import validate from 'jquery-validation'
 import {
     FormLine,
     Wrapper,
-    SubmitContainer
+    SubmitContainer,
+    InputContainer,
+    Input
 } from './style'
 import Button from '../../../ContentPage/components/Button'
 import SelectField from '../SelectField'
@@ -12,15 +15,22 @@ import Countries from '../../../../data/cases.json'
 import {createInterNationalZone} from '../../../../services/statistics'
 
 
+$.validate = validate
+
 
 export default () =>{
     
     const [countries,setCountries] = useState(Countries.data.map(x => ({...x,value:x.id,display:x.name})))
 
 
-    const SubmitHandler = async (event) =>{
-        event.preventDefault()
-        let data = $('#InterNationalZone').serializeArray()
+    $("#InterNationalZone").validate({
+        submitHandler: function(form) {
+            SubmitHandler(form)
+          }
+    })
+
+    const SubmitHandler = async (form) =>{
+        let data = $(form).serializeArray()
         let formData = {};
         data.forEach(function (value,index){
 
@@ -32,6 +42,7 @@ export default () =>{
                 formData["name"] = country.name
             }
         })
+        formData["status"] = "a"
         console.log("formdata : ", formData)
         await createInterNationalZone(formData)
             .then(res => {
@@ -53,18 +64,23 @@ export default () =>{
                name="country"
                options={countries}
                 />
-                <NumberField type="number" min="0" name="sick" placeholder="Active Cases" />
+                <NumberField type="number" min="0" name="sick" placeholder="Active Cases" required />
             </FormLine>
             <FormLine>
-                <NumberField type="number" min="0" name="infected" placeholder="Confirmed Cases" />
-                <NumberField type="number" min="0" name="recovered" placeholder="Recovered Cases" />
+                <InputContainer>
+                    <Input type="number" min="0" name="infected" placeholder="Confirmed Cases" required />
+                </InputContainer>
+                <InputContainer>
+                    <Input type="number" min="0" name="recovered" placeholder="Recovered Cases" required />
+                </InputContainer>
+                
             </FormLine>
             <FormLine>
-                <NumberField type="number" min="0" name="dead" placeholder="Deaths" />
-                <NumberField type="number" min="0" name="carrier" placeholder="Virus Carrier" />
+                <NumberField type="number" min="0" name="dead" placeholder="Deaths" required />
+                <NumberField type="number" min="0" name="carrier" placeholder="Virus Carrier" required />
             </FormLine>
             <SubmitContainer>
-                <Button selected large onClick={SubmitHandler}> Create </Button>
+                <Button selected large> Create </Button>
             </SubmitContainer>
         </Wrapper>
     )

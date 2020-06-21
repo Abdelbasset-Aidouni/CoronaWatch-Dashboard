@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 // import SelectField from '../SelectField'
 import $ from 'jquery'
+import validate from 'jquery-validation'
 import {
     CenteredContent,
     Select,
@@ -10,7 +11,10 @@ import {
     NumberFieldsContainer,
     Wrapper,
     FlexContainer,
-    SubmitContainer
+    SubmitContainer,
+    StyledSelect,
+    SelectContainer,
+    InputContainer
 } from './style'
 import SwitchButton from '../../../../components/SwitchButton'
 import Heading from '../../../../components/Heading'
@@ -19,6 +23,7 @@ import {fetchCommunes,fetchWilayas,createNationalZone} from '../../../../service
 import {fetchCommunes as fetchCommunesAction ,fetchWilayas as fetchWilayasAction } from '../../../../store/actions'
 import {setUpSelectField , ReInitializeSelect} from '../../../../components/CustomSelect'
 
+$.validate = validate
 
 
 
@@ -26,28 +31,42 @@ export default () => {
     const wilayas =  useSelector(state => state.wilayas)
     const communes =  useSelector(state => state.communes)
     const [selectedWilaya,setSelectedWilaya] = useState(1)
+
+
+    window.communes = communes
     
-    const filterCommuneByWilaya = (event) =>{
+    
+    $("#NationalZone").validate({
+        submitHandler: function(form) {
+            SubmitHandler(form)
+          }
+    })
+
+    const ChangeWilayaHandler = (event) =>{
         const value = event.target.value
         const wilayaID = parseInt(value)
         console.log("selected wilaya : " , wilayaID)
         setSelectedWilaya(wilayaID)
     } 
 
-    const SubmitHandler = async (event) =>{
-        event.preventDefault()
-        let data = $('#NationalZone').serializeArray()
+    const SubmitHandler = async (form) =>{
+        let data = $(form).serializeArray()
         let formData = {};
+        
         data.forEach(function (value,index){
 
             formData[value.name] = value.value
             if (value.name === "commune") {
-                let commune = communes.filter(x => x.pk === parseInt(value.value))[0]
+                let f = window.communes.filter(x => x.pk === parseInt(value.value))
+                let commune = f[0]
+                console.log({value:value.value,commune,f,communes:window.communes,selectedWilaya})
                 formData["x"] = commune.latitude
                 formData["y"] = commune.longitude
                 formData["name"] = commune.nom
+                
             }
         })
+        formData["status"] = "a"
         console.log("formdata : ", formData)
         await createNationalZone(formData)
             .then(res => {
@@ -66,7 +85,7 @@ export default () => {
         <Wrapper id="NationalZone">
             <CenteredContent>
                 <SelectFieldsContainer>
-                    <Select
+                    {/* <Select
                     options={
                         wilayas.length !== 0 ?
                         wilayas.map(wilaya => ({...wilaya,value:wilaya.pk,display:wilaya.nom}))
@@ -75,9 +94,9 @@ export default () => {
                     }
                     
                     onChangeHandler={filterCommuneByWilaya}
-                    />
+                    /> */}
                     
-                    <Select
+                    {/* <Select
                     options={
                         communes.length ?
                         communes.map(commune => ({...commune,value:commune.pk,display:commune.nom}))
@@ -87,23 +106,56 @@ export default () => {
 
                     name="commune"
                     // selected={selectedWilaya}
-                    />
+                    /> */}
+
+                    <SelectContainer>
+                        <StyledSelect 
+                        onChange={ChangeWilayaHandler}
+                        class="form-control">
+                        {   wilayas.length !== 0 ?
+                            wilayas.map(wilaya => <option value={wilaya.pk} > {wilaya.nom} </option>)
+                            :
+                            <option></option>  }
+                        </StyledSelect>
+                        <sub class="text-muted ml-2" >select wilaya</sub>
+                    </SelectContainer>
+                    
+
+                    <SelectContainer>
+                        <StyledSelect class="form-control" name="commune">
+                        {   communes.length ?
+                            communes.filter(item => item.wilaya === selectedWilaya).map(commune => <option value={commune.pk}>{commune.nom}</option> )
+                            :
+                            <option></option>  }
+                        </StyledSelect>
+                        <sub class="text-muted ml-2" >Select commune as Zone </sub>
+                    </SelectContainer>
+                    
                 </SelectFieldsContainer>
                 
             </CenteredContent>
             <NumberFieldsContainer>
-                <Input type="number" min="0" name="infected" placeholder="Confirmed Cases" />
-                <Input type="number" min="0" name="dead" placeholder="Deaths" />
-                <Input type="number" min="0" name="recovered" placeholder="Recovered Cases" />
-                <Input type="number" min="0" name="sick" placeholder="Suspected Cases" />
+                <InputContainer>
+                    <Input type="number" min="0"  name="infected" placeholder="Confirmed Cases" required />
+                </InputContainer>
+                <InputContainer>
+                    <Input type="number" min="0"  name="dead" placeholder="Deaths" required/>
+                </InputContainer>
+                <InputContainer>
+                    <Input type="number" min="0"  name="recovered" placeholder="Recovered Cases" required />
+                </InputContainer>
+                <InputContainer>
+                    <Input type="number" min="0"  name="sick" placeholder="Active Cases" required />
+                </InputContainer>
+                
                 
             </NumberFieldsContainer>
             <FlexContainer>
                 <Heading size="h6">Risky Area </Heading>
-                <SwitchButton name="risk" />
+                <SwitchButton name="risk"  required />
             </FlexContainer>
             <SubmitContainer>
-                <Button selected large onClick={SubmitHandler}> Create </Button>
+                <Button selected large> Create </Button>
             </SubmitContainer>
             
         </Wrapper>

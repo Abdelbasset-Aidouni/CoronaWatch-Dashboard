@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import $ from "jquery"
+import validate from "jquery-validation"
 import {
     ModalContainer,
     ModalWrapper,
@@ -23,7 +24,7 @@ import Calendar from "../../../../assets/icons/calendar-1.png"
 import {createUser} from '../../../../services/accounts/users'
 import {setUpSelectField} from '../../../../components/CustomSelect' 
 
-
+$.validate = validate
 
 
 
@@ -57,8 +58,30 @@ export default () =>{
         setUpSelectField()
     },[])
 
-    const formSubmitionHandler = async () =>  {
-        let data = $('#addUserForm').serializeArray()
+    $.validator.addMethod("minAge", function(value, element) {
+        var inputDate = new Date(value);
+        var ageDifMs = Date.now() - inputDate.getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        let age     = Math.abs(ageDate.getUTCFullYear() - 1970);
+        console.log()
+        if (age >= 20)
+            return true;
+        return false;
+    }, "Age must be at least 20 years !");
+    $('#addUserForm').validate({
+        submitHandler: function(form) {
+            formSubmitionHandler(form)
+          },
+          rules: {
+            birth_date: {
+                required: true,
+                date: true,
+                minAge: true
+            }
+        }
+    })
+    const formSubmitionHandler = async (form) =>  {
+        let data = $(form).serializeArray()
         let formData = {};
         data.forEach(function (value,index){
 
@@ -94,15 +117,24 @@ export default () =>{
                 
                 <Col>
                     <Label>First Name</Label>
-                    <TextField name="first_name"/>
+                    <TextField name="first_name" required/>
                     <Label>Email</Label>
-                    <TextField name="email" />
+                    <TextField type="email" name="email" required />
                     <Label>Birth date</Label>
-                    <input 
+                    <TextField
+                        required
+                         
+                        name="birth_date"
+                        type="date" 
+                        // value={`${startDate.getFullYear()}-${startDate.getMonth() < 10 ? "0" : ""}${startDate.getMonth() + 1}-${startDate.getDate() < 10 ? "0" : ""}${startDate.getDate()}`}
+                    />
+                    {/* <input 
+                    required
                     hidden 
-                    name="birth_date" 
-                    value={`${startDate.getFullYear()}-${startDate.getMonth() < 10 ? "0" : ""}${startDate.getMonth() + 1}-${startDate.getDate() < 10 ? "0" : ""}${startDate.getDate()}`} />
-                    <BirthDateField>
+                    name="birth_date"
+                    type="date" 
+                    value={`${startDate.getFullYear()}-${startDate.getMonth() < 10 ? "0" : ""}${startDate.getMonth() + 1}-${startDate.getDate() < 10 ? "0" : ""}${startDate.getDate()}`} /> */}
+                    {/* <BirthDateField>
                         <DateInputContainer>
                             <DateInput disabled type="number" max="31" placeholder="DD" basis="25%" value={startDate.getDate()} />
                             <DateInput disabled type="number" max="12" placeholder="MM" basis="25%" value={startDate.getMonth() + 1} />
@@ -125,18 +157,18 @@ export default () =>{
                         pointer
                         />
                             
-                    </BirthDateField>
+                    </BirthDateField> */}
                     
                     
                 </Col>
                 <Col>
                     <Label>Last Name</Label>
-                    <TextField name="last_name"/>
+                    <TextField name="last_name" required/>
                     <Label>Password</Label>
-                    <TextField type="password" name="password"/>
+                    <TextField type="password" name="password" required />
                     <Label>Role</Label>
                     <div className="custom-select" style={{width:"100%"}}>
-                        <select name="role" >
+                        <select name="role" required>
                             <option value="5" >Admin</option>
                             <option value="2" >Moderator</option>
                             <option value="4" >Health Agent</option>
@@ -148,7 +180,7 @@ export default () =>{
                 </Col>
                 
             </FormContainer>
-            <ButtonSubmit onClick={formSubmitionHandler} active large>Create User</ButtonSubmit>
+            <ButtonSubmit  active large onClick={() => $('#addUserForm').submit()}>Create User</ButtonSubmit>
             
         </ModalContainer>
     </>

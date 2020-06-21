@@ -50,13 +50,13 @@ code {
   right: 10px;
   width: 0;
   height: 0;
-  border: 6px solid transparent;
-  border-color: #49514A transparent transparent transparent;
+  /* border: 6px solid transparent;
+  border-color: #49514A transparent transparent transparent; */
 }
 
 /* Point the arrow upwards when the select box is open (active): */
 .select-selected.select-arrow-active:after {
-  border-color: transparent transparent #49514A transparent;
+  /* border-color: transparent transparent #49514A transparent; */
   display: none;
   top: 7px;
 }

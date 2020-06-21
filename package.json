@@ -17,6 +17,7 @@
     "floatthead": "^2.1.4",
     "jquery": "^3.5.0",
     "jquery-confirm": "^3.3.4",
+    "jquery-validation": "^1.19.2",
     "leaflet": "^1.6.0",
     "mime-types": "^2.1.26",
     "pure-react-carousel": "^1.27.0",
@@ -32,11 +33,13 @@
     "react-scripts": "3.4.1",
     "react-simple-maps": "^2.0.0",
     "react-spinners": "^0.8.1",
+    "react-summernote": "^2.0.0",
     "react-tooltip": "^4.1.2",
     "react-truncate": "^2.4.0",
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "styled-components": "^5.0.1",
+    "summernote": "^0.8.18",
     "video-react": "^0.14.1"
   },
   "scripts": {

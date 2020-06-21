@@ -3,7 +3,7 @@ import styled,{css} from 'styled-components'
 
 
 export default styled.button`
-    background-color:${props => props.active | props.selected ? "#13C7E9" : "white"};
+    background-color:${props => props.active | props.selected ? "#13C7E9B9" : "white"};
     color:${props => props.active | props.selected ? "white" : "#13C7E9"};
     font-size: ${props => props.large ? "1.125rem" : ".875rem"};
     font-weight:500;
@@ -17,5 +17,9 @@ export default styled.button`
     transition:all .4s ;
     &:focus{
         outline:none;
+    }
+    &:hover{
+        box-shadow:0px 14px 18px 0px rgba(0,0,0,0.1);
+        background-color:#13C7E9 ;
     }
 `
