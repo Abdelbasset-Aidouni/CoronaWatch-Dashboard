@@ -22,15 +22,18 @@ export default () =>{
     
     const [countries,setCountries] = useState(Countries.data.map(x => ({...x,value:x.id,display:x.name})))
 
-
-    $("#InterNationalZone").validate({
-        submitHandler: function(form) {
-            SubmitHandler(form)
-          }
+    $("#InterNationalZone").on('submit',function (e){
+        e.preventDefault()
     })
 
-    const SubmitHandler = async (form) =>{
-        let data = $(form).serializeArray()
+    // $("#InterNationalZone").validate({
+        
+    // })
+    
+
+    const SubmitHandler = async (event) =>{
+        event.preventDefault()
+        let data = $("#InterNationalZone").serializeArray()
         let formData = {};
         data.forEach(function (value,index){
 
@@ -58,7 +61,7 @@ export default () =>{
     }
   
     return (
-        <Wrapper id="InterNationalZone">
+        <Wrapper id="InterNationalZone" novalidate onSubmit={SubmitHandler}>
             <FormLine>
                <SelectField
                name="country"

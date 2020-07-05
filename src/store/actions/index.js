@@ -35,5 +35,26 @@ export const fetchCommunes = (data) => ({
 })
 
 
+export const switchToNational = () => ({
+    type:"SWITCH_TO_NATIONAL",
+})
+
+
+export const switchToInterNational = () => ({
+    type:"SWITCH_TO_INTERNATIONAL",
+})
+
+
+export const setData = (data,dataType) => ({
+    type:"SET_DATA",
+    data,
+    dataType
+})
+
+
+export const setUnfetched = (dataType) => ({
+    type:"SET_UNFETCHED",
+    dataType
+})
 
 

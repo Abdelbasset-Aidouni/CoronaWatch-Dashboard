@@ -9,14 +9,28 @@ import {
     InfoContainer,
     ActionsContainer
 } from './style'
-import { getPost,validateUserPost,rejectUserPost } from '../../services/content'
+import {useSelector,useDispatch} from 'react-redux'
+
+import {_getPost, getPost,validateUserPost,rejectUserPost,validatePost,rejectPost } from '../../services/content'
 import { BadgeContainer, Badge } from '../ContentPage/components/Article/style'
 
 const ContentDetailPage = (props) =>{
+    let Articles = useSelector(state => state.content)
+    Articles = Articles.filter(item => item.selected)[0]
     const [post,setPost] = useState({})
+    const [articlesType,setArticlesType] = useState(Articles.type)
+    
+
+    useEffect(() => {
+        const updateAeticleType = () =>{
+            setArticlesType(Articles.type)
+        }
+        updateAeticleType()
+    },[Articles])
+
     useEffect(()=>{
         const getPost_ = async () => {
-            await getPost(props.match.params.id)
+            await _getPost(props.match.params.id,articlesType)
             .then(res => res.json().then(data => {
                 if (res.status === 200){
                     console.log( "post user is :",data)
@@ -31,7 +45,7 @@ const ContentDetailPage = (props) =>{
         getPost_()
     },[])
     const handleValidate = async () =>{
-        return await validateUserPost(post.pk)
+        return await validatePost(post.pk,articlesType)
                 .then(res => {
                     if (res.ok){
                         res.text(text => console.log(text))
@@ -45,7 +59,7 @@ const ContentDetailPage = (props) =>{
     }
 
     const handleReject = async () =>{
-        return await rejectUserPost(post.pk)
+        return await rejectPost(post.pk,articlesType)
                 .then(res => {
                     if (res.ok){
                         setPost(prev => ({...prev,status:"rejected"}))
@@ -58,9 +72,9 @@ const ContentDetailPage = (props) =>{
                 })
     }
     return (
-        <PageWrapper>
+        <PageWrapper> { console.log("articles type ",articlesType)}
             <ArticleContainer id="articleContainer">
-                <ArticleDetail {...post} />
+                <ArticleDetail {...post} postType={articlesType} />
             </ArticleContainer>
             <InfoContainer>
                 <UserDetail userID={post.user}/>

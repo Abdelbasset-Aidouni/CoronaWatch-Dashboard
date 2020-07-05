@@ -16,10 +16,12 @@ import {Provider} from 'react-redux'
 import store from './store/store'
 import ContentPage from './pages/ContentPage';
 import ContentDetailPage from './pages/ContentDetailPage'
+import ContentDetailRobot from './pages/ContentDetailRobot'
 import CommentsPage from "./pages/CommentsPage"
 import ReportedCasesPage from './pages/ReportedCasesPage'
 import HomePage from './pages/HomePage'
 import StatisticsPage from './pages/Statistics'
+import CreateZonePage from './pages/Statistics/components/CreateZonePage'
 import PublishArticlePage from './pages/PublishArticlePage'
 import floatThead from 'floatthead'
 
@@ -39,10 +41,12 @@ ReactDOM.render(
         <LoginRoute path="/login" component={LoginPage}/>
         <PrivateRoute path="/accounts" component={AccountsPage} />
         <PrivateRoute exact path="/content" component={ContentPage} />
-        <PrivateRoute path="/content/:id"  component={ContentDetailPage} />
+        <PrivateRoute exact path="/content/:id"  component={ContentDetailPage} />
+        <PrivateRoute path="/content/robots/:id"  component={ContentDetailRobot} />
         <PrivateRoute path="/comments" component={CommentsPage} />
         <PrivateRoute path="/reported-cases" component={ReportedCasesPage} />
-        <PrivateRoute path="/statistics" component={StatisticsPage} />
+        <PrivateRoute exact path="/statistics" component={StatisticsPage} />
+        <PrivateRoute path="/statistics/create-zone/" component={CreateZonePage} />
         <PrivateRoute path="/publish-article" component={PublishArticlePage} />
         <Redirect from="*" to="/" />
       </Switch>

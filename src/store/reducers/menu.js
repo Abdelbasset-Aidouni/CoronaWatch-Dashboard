@@ -13,7 +13,7 @@ let globalState = [
     {id:2,item:"Content",selected:false,icon:Content,url:"/content"},
     {id:3,item:"Comments",selected:false,icon:Comments,url:"/comments"},
     {id:4,item:"Reported Cases",selected:false,icon:Warning,url:"/reported-cases"},
-    {id:5,item:"Statistics",selected:false,icon:Stats,url:"/statistics"},
+    {id:5,item:"Manage Zones",selected:false,icon:Stats,url:"/statistics"},
     {id:6,item:"Publish Article",selected:false,icon:FileUpload,url:"/publish-article"},
 ]
 

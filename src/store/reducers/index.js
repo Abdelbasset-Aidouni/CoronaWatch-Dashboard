@@ -1,7 +1,7 @@
-import {SwitchTabReducer} from './menu'
+import {SwitchTabReducer,setDataReducer} from './menu'
 import {authReducer} from './auth'
 import {SwitchCategoryReducer} from './content'
-import {WilayasReducer,CommunesReducer} from './statistics'
+import {WilayasReducer,CommunesReducer,MapModeReducer} from './statistics'
 import {combineReducers} from 'redux'
 
 const RootReducers = combineReducers({
@@ -9,7 +9,8 @@ const RootReducers = combineReducers({
     auth:authReducer,
     content:SwitchCategoryReducer,
     wilayas:WilayasReducer,
-    communes:CommunesReducer
+    communes:CommunesReducer,
+    currentMapMode:MapModeReducer
 })
 
 

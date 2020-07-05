@@ -11,15 +11,42 @@ import {
 import Dots from '../../../../assets/icons/dots.svg'
 import SvgIcon from '../../../../components/SvgIcon'
 import {getUser} from '../../../../services/accounts/users'
-import {validateUserPost,rejectUserPost,setPendingUserPost,deleteUserPost} from '../../../../services/content'
+import {
+    validateUserPost,
+    rejectUserPost,
+    setPendingUserPost,
+    deleteUserPost,
+    validatePost,
+    rejectPost,
+    deletePost,
+    setPendingPost
+} from '../../../../services/content'
+import { Link } from 'react-router-dom'
+import {useSelector,useDispatch} from 'react-redux'
+
+
+import {setUnfetched} from '../../../../store/actions'
 
 
 
-
-export default ({article,deleteHandler}) =>{
+export default ({article,deleteHandler,articlesType}) =>{
     const [dropdownOpen, setOpen] = useState(false);
     const [status,setStatus] = useState(article.status)
     const [userObject,setUser] = useState({})
+    const [articleState,setArticleState] = useState(article)
+
+    const dispatch = useDispatch()
+    let Articles = useSelector(state => state.content)
+    Articles = Articles.filter(item => item.selected)[0]
+
+    useEffect(()=>{
+        const setArticle = () => {
+            if (articlesType === "robots")
+            setArticleState({...article,status:article.status === 1 ? "pending" : article.status === 2 ? "accepted" : "rejected"})
+            else setArticleState(article)
+        }
+        setArticle()
+    },[article,Articles.type])
 
     useEffect(()=>{
         const getUser_ = async () => {
@@ -35,16 +62,16 @@ export default ({article,deleteHandler}) =>{
         }
         
         getUser_()
-    },[])
+    },[article])
     const toggle = () =>{ 
         setOpen(!dropdownOpen);
         console.log("dropdown")
     }
     const handleDelete = async () => {
-        return await deleteUserPost(article.pk)
+        return await deletePost(articleState.pk,articlesType)
                 .then(res => {
                     if (res.status === 200){
-                        deleteHandler(article.pk)
+                        deleteHandler(articleState.pk)
                         window.$.alert({title:"Success",content:"Post has been Deleted Successfully"})
                     }else{
                         res.text().then(text => console.log("text response",text))
@@ -53,11 +80,13 @@ export default ({article,deleteHandler}) =>{
                 })
     }
     const handleAccept = async () => {
-        return await validateUserPost(article.pk)
+        return await validatePost(articleState.pk,articlesType)
                 .then(res => {
                     if (res.status === 200){
                         res.text(text => console.log(text))
                         setStatus("accepted")
+                        dispatch(setUnfetched(Articles.type))
+                        setArticleState(pre => ({...pre,status:"accepted"}))
                         window.$.alert({title:"Success",content:"Post has been validated Successfully"})
                     }else{
                         res.text().then(text => console.log("text response",text))
@@ -66,10 +95,11 @@ export default ({article,deleteHandler}) =>{
                 })
     }
     const handleReject = async () => {
-        return await rejectUserPost(article.pk)
+        return await rejectPost(articleState.pk,articlesType)
                 .then(res => {
                     if (res.ok){
                         setStatus("rejected")
+                        setArticleState(pre => ({...pre,status:"rejected"}))
                         res.text(text => console.log(text))
                         window.$.alert({title:"Success",content:"Post has been Rejected Successfully"})
                     }else{
@@ -79,10 +109,10 @@ export default ({article,deleteHandler}) =>{
                 })
     }
     const handlePending = async () =>{
-        return await setPendingUserPost(article.pk)
+        return await setPendingPost(articleState.pk,articlesType)
                 .then(res => {
                     if (res.ok){
-                        setStatus("pending")
+                        setArticleState(pre => ({...pre,status:"pending"}))
                         res.text(text => console.log(text))
                         window.$.alert({title:"Success",content:"Post has been reset as  Pending Successfully"})
                     }else{
@@ -92,16 +122,24 @@ export default ({article,deleteHandler}) =>{
                 })
     }
     return (
-        <Tr>
-            <Td>{article.pk}</Td>
-            <Td>{article.title ? (article.title.length > 50 ? article.title.substr(0,50) + "..." : article.title) : article.title }</Td>
-            <Td>{userObject.email}</Td>
-            <Td>{article.date_posted}</Td>
+        <Tr>{console.log( "article : ", articleState)}
+            <Td> <Link to={`/content/${articlesType === "robots" ? "robots/" : ""}${articleState.pk}`} >{articleState.pk}</Link></Td>
+            <Td>{articleState.title ? (articleState.title.length > 50 ? articleState.title.substr(0,50) + "..." : articleState.title) : articleState.title }</Td>
+            {
+                articlesType !== "robots" ?
+                <>
+                <Td>{userObject.email}</Td>
+                <Td>{articleState.date_posted}</Td>
+                </>
+                : null
+            }
+            
+            
             <Td>
                 <StatusBadge
-                type={status === "accepted" ? "success" : status === "rejected" ? "danger" : "warning"}
+                type={articleState.status === "accepted" ? "success" : articleState.status === "rejected" ? "danger" : "warning"}
                 >
-                    {status}
+                    {articleState.status}
                 </StatusBadge>
             </Td>
             <Td>
@@ -125,14 +163,14 @@ export default ({article,deleteHandler}) =>{
                     onClick={handleDelete}
                     >Delete</DropdownItem>
                     {
-                        status !== "accepted" ?
+                        articleState.status !== "accepted"  ?
                         <DropdownItem className="dropdown-item"
                         onClick={handleAccept}> Accept </DropdownItem> : 
                         <DropdownItem className="dropdown-item"
                         onClick={handlePending}> Reset as Pending </DropdownItem>
                     }
                     {
-                        status !== "rejected" ?
+                        articleState.status !== "rejected" ?
                         <DropdownItem className="dropdown-item"
                         onClick={handleReject}
                         > Reject </DropdownItem> : 

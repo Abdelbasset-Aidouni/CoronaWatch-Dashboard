@@ -1,6 +1,6 @@
 
 import {apiUrl,accountsUrl} from "../../../global/config"
-
+import $ from 'jquery'
 
 // export const login = (email, password) => {
 //     const requestOptions = {
@@ -19,7 +19,35 @@ import {apiUrl,accountsUrl} from "../../../global/config"
 //         });
 // }
 
+export const checkAuthenticated = (token) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 
+            'Content-Type': 'application/json' ,
+            'Authorization': 'Token ' + token
+        },
+        
+    };
+    return fetch(`${accountsUrl}/current-user/`, requestOptions)
+        .then(res => res.text()
+                        .then(text => {
+                            if (res.ok){
+                                var user = JSON.parse(text)
+                                
+                                console.log("------------Authenticated----------------\n",user)
 
+                                return true
+                            }else{
+                                console.log("**************Not Authenticated***************",text)
+                                return false
+                                // window.location.reload(true);
+                                
+                            }
+                            
+                        }
+                    )
+            )
+}
 
 
 export const login = (email,password) => {
@@ -39,6 +67,7 @@ export const login = (email,password) => {
                             }else{
                                 logout();
                                 // window.location.reload(true);
+                                $.alert({type:"orange",title:"Wrong Credentials",content:"please check your credentials and try again"})
                                 console.log("**************error***************",text)
                             }
                             

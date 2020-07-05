@@ -23,11 +23,12 @@ export const SubmitContainer = styled.div`
 `
 
 export const Input = styled(NumberField)`
+    background-color:${props => props.secondary ? "#eee" : "white" };
     width:100%;
 `
 
 export const InputContainer = styled.div`
-    flex-basis:45%;
+    flex-basis:44%;
     max-width:45%;
     margin:.6rem 1.2rem;
 `

@@ -10,9 +10,10 @@ import ReactTooltip from "react-tooltip"
 import data from '../../data/general_info.json'
 import Map from './map'
 import LeafMap from './map/leaf'
-import {getNationalZones} from '../../services/statistics'
-
-
+import {getNationalZones,getInterationalZones} from '../../services/statistics'
+import {useSelector,useDispatch} from 'react-redux'
+import {DateContainer} from './style'
+import Calendar from '../../assets/icons/calendarIcon.svg'
 
 const CardsContainer = styled.div`
     display:flex;
@@ -80,21 +81,37 @@ const EventsContainer = styled.div`
     background-color:white;
     border-radius:5px;
     height:400px;
+    padding:.6rem ;
 `
 
 const Wrapper = styled.div`
     display:flex;
 `
 
-const HomeContainer = () =>{
+
+const getCurrentDate = ()=>{
+    const months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+    var currentDate = new Date()
+    var day = currentDate.getDate()
+    var month = months[currentDate.getMonth()]
+    var year = currentDate.getFullYear()
+    return `${day} ${month} ${year}`
+}
+
+
+
+const HomePage = () =>{
     const [tooltip,setTooltip] = useState("")
     const [statData,setStatData] = useState([])
-
+    const currentMode =  useSelector(state => state.currentMapMode)
 
     useEffect(() =>{
         
-            const _wilayas = async () => {
-                await getNationalZones().then(res => {
+            const fetch = async () => {
+                let response;
+                if (currentMode === "national") response = getNationalZones()
+                else response = getInterationalZones()
+                await response.then(res => {
                     if (res.status === 200){
                         res.json().then(json =>{setStatData(json.results)} )
                     }else{
@@ -103,116 +120,131 @@ const HomeContainer = () =>{
                 })
                 
             }
-            _wilayas()
-        },[])
+            fetch()
+        },[currentMode])
     return (
-        <Wrapper>
-        <MainContentContainer>
-            <CardsContainer>
-            
-                <InfoCard>
-                    <Heading size="h3"> Infected </Heading>
-                    <Heading
-                        size="h1"
-                        weight="600"
-                    >
-                        {statData.reduce((total,item)=> total + item.infected,0)}
-                    </Heading>
-                    <ProgressContainer>
-                        <StatusProgressIcon
-                            url={true ? StatusUp : StatusDown}
-                            width="10px"
-                            height="20px"
-                            size="contain"
-                            danger={true}
-                        />
-                        <ProgressText
-                            danger= {true}
-                        > 0.39% </ProgressText>
-                    </ProgressContainer>
-                </InfoCard>
-
-                <InfoCard>
-                    <Heading size="h3"> Sick </Heading>
-                    <Heading
-                        size="h1"
-                        weight="600"
-                    >
-                        {statData.reduce((total,item)=> total + item.sick,0)}
-                    </Heading>
-                    <ProgressContainer>
-                        <StatusProgressIcon
-                            url={true ? StatusUp : StatusDown}
-                            width="10px"
-                            height="20px"
-                            size="contain"
-                            danger={true}
-                        />
-                        <ProgressText
-                            danger= {true}
-                        > 0.39% </ProgressText>
-                    </ProgressContainer>
-                </InfoCard>
-
-                <InfoCard>
-                    <Heading size="h3"> Recovered </Heading>
-                    <Heading
-                        size="h1"
-                        weight="600"
-                    >
-                        {statData.reduce((total,item)=> total + item.recovered,0)}
-                    </Heading>
-                    <ProgressContainer>
-                        <StatusProgressIcon
-                            url={true ? StatusUp : StatusDown}
-                            width="10px"
-                            height="20px"
-                            size="contain"
-                            danger={true}
-                        />
-                        <ProgressText
-                            danger= {true}
-                        > 0.39% </ProgressText>
-                    </ProgressContainer>
-                </InfoCard>
-
-                <InfoCard>
-                    <Heading size="h3"> Death </Heading>
-                    <Heading
-                        size="h1"
-                        weight="600"
-                    >
-                        {statData.reduce((total,item)=> total + item.dead,0)}
-                    </Heading>
-                    <ProgressContainer>
-                        <StatusProgressIcon
-                            url={false ? StatusUp : StatusDown}
-                            width="10px"
-                            height="20px"
-                            size="contain"
-                            danger={false}
-                        />
-                        <ProgressText
-                            danger= {false}
-                        > 0.39% </ProgressText>
-                    </ProgressContainer>
-                </InfoCard>
-          
+        <BasePage stat={true} >
+            <Wrapper>
+            <MainContentContainer>
+                <CardsContainer>
                 
+                    <InfoCard>
+                        <Heading size="h3"> Infected </Heading>
+                        <Heading
+                            size="h1"
+                            weight="600"
+                        >
+                            {statData.reduce((total,item)=> total + item.infected,0)}
+                        </Heading>
+                        <ProgressContainer>
+                            <StatusProgressIcon
+                                url={true ? StatusUp : StatusDown}
+                                width="10px"
+                                height="20px"
+                                size="contain"
+                                danger={true}
+                            />
+                            <ProgressText
+                                danger= {true}
+                            > 0.39% </ProgressText>
+                        </ProgressContainer>
+                    </InfoCard>
 
+                    <InfoCard>
+                        <Heading size="h3"> Sick </Heading>
+                        <Heading
+                            size="h1"
+                            weight="600"
+                        >
+                            {statData.reduce((total,item)=> total + item.sick,0)}
+                        </Heading>
+                        <ProgressContainer>
+                            <StatusProgressIcon
+                                url={true ? StatusUp : StatusDown}
+                                width="10px"
+                                height="20px"
+                                size="contain"
+                                danger={true}
+                            />
+                            <ProgressText
+                                danger= {true}
+                            > 0.39% </ProgressText>
+                        </ProgressContainer>
+                    </InfoCard>
 
+                    <InfoCard>
+                        <Heading size="h3"> Recovered </Heading>
+                        <Heading
+                            size="h1"
+                            weight="600"
+                        >
+                            {statData.reduce((total,item)=> total + item.recovered,0)}
+                        </Heading>
+                        <ProgressContainer>
+                            <StatusProgressIcon
+                                url={true ? StatusUp : StatusDown}
+                                width="10px"
+                                height="20px"
+                                size="contain"
+                                danger={true}
+                            />
+                            <ProgressText
+                                danger= {true}
+                            > 0.39% </ProgressText>
+                        </ProgressContainer>
+                    </InfoCard>
 
-
-
-            </CardsContainer>
-            <MapContainer>
-                <LeafMap setTooltip={setTooltip}/>
-                <ReactTooltip>{tooltip}</ReactTooltip>
-            </MapContainer>
+                    <InfoCard>
+                        <Heading size="h3"> Death </Heading>
+                        <Heading
+                            size="h1"
+                            weight="600"
+                        >
+                            {statData.reduce((total,item)=> total + item.dead,0)}
+                        </Heading>
+                        <ProgressContainer>
+                            <StatusProgressIcon
+                                url={false ? StatusUp : StatusDown}
+                                width="10px"
+                                height="20px"
+                                size="contain"
+                                danger={false}
+                            />
+                            <ProgressText
+                                danger= {false}
+                            > 0.39% </ProgressText>
+                        </ProgressContainer>
+                    </InfoCard>
             
-        </MainContentContainer>
-        <EventsContainer></EventsContainer>
-        </Wrapper>
+                    
+
+
+
+
+
+                </CardsContainer>
+                <MapContainer>
+                    <LeafMap setTooltip={setTooltip}  mode={currentMode} />
+                    <ReactTooltip>{tooltip}</ReactTooltip>
+                </MapContainer>
+                
+            </MainContentContainer>
+            <EventsContainer>
+                <DateContainer>
+                    <SvgIcon  
+                    url={Calendar}
+                    width="30px"
+                    height="30px"
+                    size="contain"
+                    />
+                    <Heading weight="600" size="h4"> {getCurrentDate()} </Heading>
+                </DateContainer>
+                <hr className="w-100 m-0 mb-3" />
+                
+                <Heading weight="600" size="h4">Latest Events </Heading>
+            </EventsContainer>
+            </Wrapper>
+        </BasePage>
     )
 }
 
@@ -222,4 +254,4 @@ const HomeContainer = () =>{
 
 
 
-export default () => <BasePage> <HomeContainer/> </BasePage>
+export default () => <HomePage/> 

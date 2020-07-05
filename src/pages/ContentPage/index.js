@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useCallback} from 'react'
 import BasePage from '../BasePage'
 import styled from 'styled-components'
 import Header from './components/Header'
@@ -17,6 +17,8 @@ import ArticleLine from './components/ArticleLine'
 import {useSelector,useDispatch} from 'react-redux'
 import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
+import {setData} from '../../store/actions'
+
 
 
 // const CustomCarouselProvider = styled
@@ -35,22 +37,42 @@ const override = css`
     left:45%;
 `
 const ContentWrapper = () =>{
+    const dispatch = useDispatch()
     const [loading,setLoading] = useState(false)
     const [articles,setArticles] = useState([])
     const [blurState,setBlurState] = useState(false)
+    const [articlesFetched,setArticlesFetched] = useState()
     let Articles = useSelector(state => state.content)
     Articles = Articles.filter(item => item.selected)[0]
     console.log(Articles)
+
+
+    useEffect(() => {
+        const updateStatus = () => {
+            setArticlesFetched(Articles.fetched)
+        }
+        
+        updateStatus()
+    },[Articles])
+
+
     useEffect(()=>{
         const fetch = async () =>{
             setBlurState(true)
             setLoading(true)
-            await Articles.fetch().then(res => setArticles(res.results))
+            if (Articles.fetched) getFromCache()
+            else await Articles.fetch().then(res => {
+                setArticles(res.results);
+                dispatch(setData(res.results,Articles.type));
+            })
+            
             setLoading(false)
             setBlurState(false)
         }
+        const getFromCache = () => setArticles(Articles.data)
+        
         fetch()
-    },[Articles,])
+    },[Articles.type,])
 
     const deleteArticle = (pk) =>{
         setArticles(pre => pre.filter(item => item.pk !== pk))
@@ -65,19 +87,27 @@ const ContentWrapper = () =>{
                         <Tr>
                             <Th>ID</Th>
                             <Th>Article Title</Th>
-                            <Th>Publisher</Th>
-                            <Th>Publish date</Th>
+                            {
+                                Articles.type !== "robots"?
+                                <>
+                                <Th>Publisher</Th>
+                                <Th>Publish date</Th>
+                                </>
+                                : null
+                            }
+                            
                             <Th>status</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {
                             articles.filter(item => !item.deleted).sort(function(a,b){
-                                if (a.status === "pending") return -1
-                                else if (b.status === "pending") return 1
+                                if (a.status === "pending" || a.status === 3) return -1
+                                else if (b.status === "pending" || b.status === 3) return 1
                                 else return 0
                             }).map(article => <ArticleLine 
-                                article={article} 
+                                article={article}
+                                articlesType={Articles.type} 
                                 deleteHandler={deleteArticle}
                                 /> )
                         }

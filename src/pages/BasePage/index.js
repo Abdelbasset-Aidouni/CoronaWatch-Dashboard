@@ -12,7 +12,7 @@ import {fetchCommunes as fetchCommunesAction ,fetchWilayas as fetchWilayasAction
 const Wrapper = styled.div`
     display:flex;
     position:absolute;
-    width:100%;
+    min-width:100%;
     flex-direction:row;
     min-height:100% !important;
     background-color:#F7F7F7;
@@ -26,7 +26,7 @@ const MainContent = styled.div`
     
 `
 
-export default ({children}) => {
+export default ({children,stat,currentMode,changeHandler}) => {
     
 
     const dispatch = useDispatch()
@@ -68,7 +68,7 @@ export default ({children}) => {
         <Wrapper>
             <SideBar/>
             <MainContent>
-                <UserNav/>
+                <UserNav stat={stat}  currentMode={currentMode} changeHandler={changeHandler} />
                 {children}
             </MainContent>
         </Wrapper>

@@ -1,76 +1,118 @@
 import React,{useState,useEffect} from 'react'
+import $ from 'jquery'
 import BasePage from '../BasePage'
-import SwitchButtons from './components/SwitchButtons'
-import NationalForm from './components/NationalForm'
-import InternationalForm from './components/InternationalForm'
-import {setUpSelectField} from '../../components/CustomSelect'
-import {useSelector,useDispatch} from 'react-redux'
-import {fetchCommunes,fetchWilayas} from '../../services/statistics'
-import {fetchCommunes as fetchCommunesAction ,fetchWilayas as fetchWilayasAction } from '../../store/actions'
+import styled from 'styled-components'
+import Header from './components/Header'
+import SvgIcon from '../../components/SvgIcon'
+import {ZonesWrapper,TableContainer} from './style'
+import {
+    TableStyle,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr
+} from './components/Table'
+import ZoneLine from './components/ZoneLine'
 
+import { css } from "@emotion/core";
+import PulseLoader from "react-spinners/PulseLoader";
+import {getInterationalZones,getNationalZones} from '../../services/statistics'
 
+// const CustomCarouselProvider = styled
+const TestLoader = styled.div`
+    width:40px;
+    height:40px;
+    background-color:black;
+    position:absolute;
+    top:60%;
+    left:60%;
 
-
-
-
-const PageWrapper = () => {
-    const dispatch = useDispatch()
-    const wilayas =  useSelector(state => state.wilayas)
-    const communes =  useSelector(state => state.communes)
-
-    const [currentForm,setCurrentForm] = useState("national")
-    useEffect(() => {
-            setUpSelectField()
-    },[currentForm])
-
-
-    
-
-    useEffect(() =>{
-        if (wilayas.length === 0){
-            const _wilayas = async () => {
-                await fetchWilayas().then(res => {
-                    if (res.status === 200){
-                        res.json().then(json =>{dispatch(fetchWilayasAction(json.results))} )
-                    }else{
-                        window.$.alert({title:"Failed to fetch wilaya list",content:"please refresh the page or contact the administration and help us get the app to work correctly"})
-                    }
-                })
-                
-            }
-            _wilayas()
-        } 
-        if (communes.length === 0){
-            const _communes = async () => {
-                await fetchCommunes().then(res => {
-                    if (res.status === 200){
-                        res.json().then(json => {dispatch(fetchCommunesAction(json.results))})
-                    }else{
-                        window.$.alert({title:"Failed to fetch commune list",content:"please refresh the page or contact the administration and help us get the app to work correctly"})
-                    }
-                }) 
-                
-            }
-            _communes()
+`
+const override = css`
+    position:absolute;
+    top:55%;
+    left:45%;
+`
+const ContentWrapper = () =>{
+    const [loading,setLoading] = useState(false)
+    const [zones,setZones] = useState([{}])
+    const [blurState,setBlurState] = useState(false)
+    const [zonesType,setZonesType] = useState("national")
+    useEffect(()=>{
+        const fetch = async () =>{
+            let fetcher;
+            setBlurState(true)
+            setLoading(true)
+            if (zonesType === "national")   fetcher = getNationalZones
+            else fetcher = getInterationalZones
+            await fetcher().then(res => res.json().then(json => {
+                if (res.status === 200){
+                    setZones(json.results)
+                }else $.alert({type:"danger",title:"Failed",content:"An Error Occurred while fetching data"})
+            }))
+            setLoading(false)
+            setBlurState(false)
         }
-        
-    },[])
+        fetch()
+    },[zonesType])
+
+    const deleteZone = (pk) =>{
+        setZones(pre => pre.filter(item => item.pk !== pk))
+    }
     return (
-        <>
-            <SwitchButtons setCurrentForm={setCurrentForm} currentForm={currentForm}/>
-            {
-                currentForm === "national" ?
-                    <NationalForm/>
-                :
-                    <InternationalForm/>
-            }
-            
-        </>
+    <>
+        <Header changeZoneType={setZonesType} />
+        <ZonesWrapper blur={blurState}>
+            <TableContainer>
+                <TableStyle>
+                    <Thead>
+                        <Tr>
+                            <Th>ID</Th>
+                            <Th>Zone Name</Th>
+                            {
+                                zonesType === "national" ? <Th>is Risky</Th> : null
+                            }
+                            
+                            <Th>Dead</Th>
+                            <Th>Sick</Th>
+                            <Th>Recovered</Th>
+                            <Th>Infected</Th>
+                            <Th>status</Th>
+                            <Th></Th>
+                            
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {
+                            zones.filter(item => !item.deleted).sort(function(a,b){
+                                if (a.status === "p") return -1
+                                else if (b.status === "p") return 1
+                                else return 0
+                            }).map(zone => <ZoneLine 
+                                zone={zone} 
+                                deleteHandler={deleteZone}
+                                zonesType={zonesType}
+                                /> )
+                        }
+                    </Tbody>
+                </TableStyle>
+            </TableContainer>
         
-    )
-}
+        
+         
+       
+        
+      </ZonesWrapper>
+      <PulseLoader
+        css={override}
+        // size={60}
+        color={"#13C7E9"}
+        loading={loading}
+        // margin={0}
+        />
+    </>
+    
+)}
 
-
-
-
-export default () => <BasePage> <PageWrapper/> </BasePage>
+export default () => <BasePage> <ContentWrapper/> </BasePage>

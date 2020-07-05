@@ -24,7 +24,7 @@ const NavItemsContainer =styled.div`
     flex-direction:column;
     width:100%;
     align-items:flex-end;
-    margin-top:2.6rem;
+    margin-top:1rem;
     cursor:pointer;
 `
 
